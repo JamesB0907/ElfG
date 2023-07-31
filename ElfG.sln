@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33712.159
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElfG", "ElfG.csproj", "{79911B98-7E99-40B4-9E28-0304CE0A2FE1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79911B98-7E99-40B4-9E28-0304CE0A2FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79911B98-7E99-40B4-9E28-0304CE0A2FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79911B98-7E99-40B4-9E28-0304CE0A2FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79911B98-7E99-40B4-9E28-0304CE0A2FE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB45C333-63B7-4934-BA58-C4DF70C80D65}
+	EndGlobalSection
+EndGlobal
