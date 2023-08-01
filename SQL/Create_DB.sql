@@ -6,15 +6,15 @@ GO
 
 USE [ElfG]
 GO
+DROP TABLE IF EXISTS [GroupSession];
+DROP TABLE IF EXISTS [Group];
 DROP TABLE IF EXISTS [FileUpload];
 DROP TABLE IF EXISTS [User];
 DROP TABLE IF EXISTS [GroupNote];
 DROP TABLE IF EXISTS [GroupSessionAttendee];
-DROP TABLE IF EXISTS [GroupSession];
 
 DROP TABLE IF EXISTS [GameType];
 DROP TABLE IF EXISTS [GroupMembership];
-DROP TABLE IF EXISTS [Group];
 DROP TABLE IF EXISTS [UserType];
 
 GO
@@ -34,8 +34,10 @@ CREATE TABLE [User] (
 
 CREATE TABLE [Group] (
   [Id] INT PRIMARY KEY IDENTITY,
+  [UserId] INT NOT NULL,
   [GroupName] VARCHAR(100) NOT NULL,
   [Description] TEXT NOT NULL,
+  CONSTRAINT [FK_Group_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
 );
 
 CREATE TABLE [GroupNote] (
@@ -76,6 +78,7 @@ CREATE TABLE [FileUpload] (
 
 CREATE TABLE [GroupSession] (
   [Id] INT PRIMARY KEY IDENTITY,
+  [UserId] INT NOT NULL,
   [GroupId] INT NOT NULL,
   [GameId] INT NOT NULL,
   [Date] DATE NOT NULL,
@@ -84,6 +87,7 @@ CREATE TABLE [GroupSession] (
   [Location] VARCHAR(100) NOT NULL,
   [Notes] TEXT NOT NULL,
   [GameTypeId] INT NOT NULL,
+  CONSTRAINT [FK_GroupSession_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
   CONSTRAINT [FK_GroupSession_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id]),
   CONSTRAINT [FK_GroupSession_GameType] FOREIGN KEY ([GameTypeId]) REFERENCES [GameType] ([Id])
 );

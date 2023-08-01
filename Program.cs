@@ -1,4 +1,5 @@
 using ElfG.Repositories;
+using ElfG.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

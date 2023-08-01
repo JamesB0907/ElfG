@@ -19,20 +19,24 @@ namespace ElfG.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Group>> GetAllGroups()
+        public IActionResult Get()
         {
-            var groups = _groupRepository.GetAll();
-            return Ok(groups);
+            return Ok(_groupRepository.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Group> GetGroupById(int id)
+        public IActionResult Get(int id)
         {
-            throw new NotImplementedException();
+            Group group = _groupRepository.GetById(id);
+            if (group == null)
+            {
+                return NotFound();
+            }
+            return Ok(group);
         }
 
         [HttpPost]
-        public IActionResult AddGroup([FromBody] Group group)
+        public IActionResult AddGroup(Group group)
         {
             throw new NotImplementedException();
         }

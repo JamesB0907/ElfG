@@ -4,7 +4,8 @@ GO
 SET IDENTITY_INSERT UserType ON;
 INSERT INTO UserType (Id, UserTypeName) VALUES
   (1, 'Player'),
-  (2, 'Game Master');
+  (2, 'Game Master'),
+  (3, 'Admin');
 SET IDENTITY_INSERT UserType OFF;
 
 SET IDENTITY_INSERT [User] ON;
@@ -17,14 +18,18 @@ INSERT INTO [User] (Id, Username, Email, UserTypeId) VALUES
   (6, 'Player3', 'player3@example.com', 1),
   (7, 'Player4', 'player4@example.com', 1),
   (8, 'Player5', 'player5@example.com', 1),
-  (9, 'Player6', 'player6@example.com', 1);
+  (9, 'Player6', 'player6@example.com', 1),
+  (10,'GameMASTER4', 'gm4@example.com', 2),
+  (11, 'ADMIN', 'admin@example.com', 3),
+  (12, 'GAMEmaster12', 'gm12@example.com', 2),
+  (13, 'Player7', 'player7@example.com', 1);
 SET IDENTITY_INSERT [User] OFF;
 
 SET IDENTITY_INSERT [Group] ON;
-INSERT INTO [Group] (Id, GroupName, [Description]) VALUES
-  (1, 'Adventurers United', 'Group for adventurers looking for quests'),
-  (2, 'Epic Boardgamers', 'Group for playing epic board games'),
-  (3, 'Dungeons & Dragons Party', 'Group for playing D&D campaigns');
+INSERT INTO [Group] (Id, UserId, GroupName, [Description]) VALUES
+  (1, 3, 'Adventurers United', 'Group for adventurers looking for quests'),
+  (2, 10, 'Epic Boardgamers', 'Group for playing epic board games'),
+  (3, 12, 'Dungeons & Dragons Party', 'Group for playing D&D campaigns');
 SET IDENTITY_INSERT [Group] OFF;
 
 SET IDENTITY_INSERT GroupNote ON;
@@ -49,7 +54,9 @@ INSERT INTO [GroupMembership] (Id, UserId, GroupId) VALUES
   (12, 5, 2),
   (13, 1, 3),
   (14, 2, 3),
-  (15, 3, 3);
+  (15, 3, 3),
+  (16, 10, 2),
+  (17, 12, 3);
 SET IDENTITY_INSERT GroupMembership OFF;
 
 SET IDENTITY_INSERT GameType ON;
@@ -73,10 +80,10 @@ INSERT INTO [FileUpload] (Id, Title, [Type], [File], UploadedOn, UploadedBy) VAL
 SET IDENTITY_INSERT FileUpload OFF;
 
 SET IDENTITY_INSERT GroupSession ON;
-INSERT INTO [GroupSession] (Id, GroupId, GameId, GameTypeId, [Date], StartTime, EndTime, [Location], Notes) VALUES
-  (1, 1, 1, 1, '2023-07-25', '18:00', '22:00', 'Tavern', 'Prepare for a tough battle...'),
-  (2, 2, 2, 1, '2023-07-27', '19:00', '23:00', 'Friend''s House', 'Bring your favorite snacks...'),
-  (3, 1, 3, 1, '2023-07-30', '20:00', '23:00', 'Wizard''s Tower', 'Unravel the mysteries...');
+INSERT INTO [GroupSession] (Id, UserId, GroupId, GameId, GameTypeId, [Date], StartTime, EndTime, [Location], Notes) VALUES
+  (1, 3, 1, 1, 1, '2023-07-25', '18:00', '22:00', 'Tavern', 'Prepare for a tough battle...'),
+  (2, 10, 2, 2, 1, '2023-07-27', '19:00', '23:00', 'Friend''s House', 'Bring your favorite snacks...'),
+  (3, 3, 1, 3, 1, '2023-07-30', '20:00', '23:00', 'Wizard''s Tower', 'Unravel the mysteries...');
 SET IDENTITY_INSERT GroupSession OFF;
 
 SET IDENTITY_INSERT GroupSessionAttendee ON;
