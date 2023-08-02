@@ -80,10 +80,11 @@ INSERT INTO [FileUpload] (Id, Title, [Type], [File], UploadedOn, UploadedBy) VAL
 SET IDENTITY_INSERT FileUpload OFF;
 
 SET IDENTITY_INSERT GroupSession ON;
-INSERT INTO [GroupSession] (Id, UserId, GroupId, GameId, GameTypeId, [Date], StartTime, EndTime, [Location], Notes) VALUES
-  (1, 3, 1, 1, 1, '2023-07-25', '18:00', '22:00', 'Tavern', 'Prepare for a tough battle...'),
-  (2, 10, 2, 2, 1, '2023-07-27', '19:00', '23:00', 'Friend''s House', 'Bring your favorite snacks...'),
-  (3, 3, 1, 3, 1, '2023-07-30', '20:00', '23:00', 'Wizard''s Tower', 'Unravel the mysteries...');
+INSERT INTO [GroupSession] (Id, UserId, GroupId, GameTypeId, [Date], StartTime, EndTime, [Location], Notes)
+VALUES
+  (1, 3, 1, 1, '2023-07-25 00:00:00', '2023-07-25 18:00:00', '2023-07-25 22:00:00', 'Tavern', 'Prepare for a tough battle...'),
+  (2, 10, 2, 1, '2023-07-27 00:00:00', '2023-07-27 19:00:00', '2023-07-27 23:00:00', 'Friend''s House', 'Bring your favorite snacks...'),
+  (3, 3, 1, 1, '2023-07-30 00:00:00', '2023-07-30 20:00:00', '2023-07-30 23:00:00', 'Wizard''s Tower', 'Unravel the mysteries...');
 SET IDENTITY_INSERT GroupSession OFF;
 
 SET IDENTITY_INSERT GroupSessionAttendee ON;

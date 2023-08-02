@@ -21,13 +21,13 @@ namespace ElfG.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_groupRepository.GetAll());
+            return Ok(_groupRepository.GetAllGroups());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Group group = _groupRepository.GetById(id);
+            Group group = _groupRepository.GetGroupInfoById(id);
             if (group == null)
             {
                 return NotFound();

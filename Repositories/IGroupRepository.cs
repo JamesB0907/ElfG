@@ -7,7 +7,7 @@ namespace ElfG.Repositories
         void AddGroup(Group group);
         void DeleteGroup(int id);
         void EditGroup(Group group);
-        List<Group> GetAll();
-        Group GetById(int id);
+        List<Group> GetAllGroups();
+        Group GetGroupInfoById(int id);
     }
 }
