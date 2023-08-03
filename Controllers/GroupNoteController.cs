@@ -17,7 +17,7 @@ namespace ElfG.Controllers
 
         // GET: api/GroupNote/5
         [HttpGet("{groupId}")]
-        public IActionResult GetGroupNotesByGroupId(int groupId)
+        public IActionResult GetGroupNotesById(int groupId)
         {
             var groupNotes = _groupNoteRepository.GetNotesByGroupId(groupId);
             if (groupNotes.Count == 0)
@@ -38,7 +38,7 @@ namespace ElfG.Controllers
             }
 
             _groupNoteRepository.AddGroupNote(groupNote);
-            return CreatedAtAction(nameof(GetGroupNoteById), new { id = groupNote.Id }, groupNote);
+            return CreatedAtAction("Get", new { id = groupNote.Id }, groupNote);
         }
 
         // PUT: api/GroupNote/5
