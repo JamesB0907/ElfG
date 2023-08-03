@@ -4,6 +4,7 @@ namespace ElfG.Repositories
 {
     public interface IGroupNoteRepository
     {
+        List<GroupNote> GetAllNotes();
         void AddGroupNote(GroupNote note);
         void DeleteGroupNote(int id);
         void EditGroupNote(GroupNote note);

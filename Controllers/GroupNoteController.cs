@@ -15,6 +15,13 @@ namespace ElfG.Controllers
             _groupNoteRepository = groupNoteRepository;
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_groupNoteRepository.GetAllNotes());
+        }
+
+
         // GET: api/GroupNote/5
         [HttpGet("{groupId}")]
         public IActionResult GetGroupNotesById(int groupId)
@@ -30,7 +37,7 @@ namespace ElfG.Controllers
 
         // POST: api/GroupNote
         [HttpPost]
-        public IActionResult AddGroupNote([FromBody] GroupNote groupNote)
+        public IActionResult AddGroupNote(GroupNote groupNote)
         {
             if (groupNote == null)
             {
@@ -43,7 +50,7 @@ namespace ElfG.Controllers
 
         // PUT: api/GroupNote/5
         [HttpPut("{id}")]
-        public IActionResult EditGroupNote(int id, [FromBody] GroupNote groupNote)
+        public IActionResult EditGroupNote(int id, GroupNote groupNote)
         {
             if (groupNote == null || groupNote.Id != id)
             {

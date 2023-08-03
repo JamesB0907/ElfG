@@ -38,19 +38,44 @@ namespace ElfG.Controllers
         [HttpPost]
         public IActionResult AddGroup(Group group)
         {
-            throw new NotImplementedException();
+            if (group == null)
+            {
+                return BadRequest("Group object is null");
+            }
+
+            _groupRepository.AddGroup(group);
+            return CreatedAtAction("Get", new { id = group.Id }, group);
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteGroup(int id)
         {
-            throw new NotImplementedException();
+            var group = _groupRepository.GetGroupInfoById(id);
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            _groupRepository.DeleteGroup(id);
+            return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult EditGroup(int id, [FromBody] Group group)
+        public IActionResult EditGroup(int id, Group group)
         {
-            throw new NotImplementedException();
+            if (group == null || group.Id != id)
+            {
+                return BadRequest("Invalid group object");
+            }
+
+            var existingGroup = _groupRepository.GetGroupInfoById(id);
+            if (existingGroup == null)
+            {
+                return NotFound();
+            }
+
+            _groupRepository.EditGroup(group);
+            return NoContent();
         }
     }
 }

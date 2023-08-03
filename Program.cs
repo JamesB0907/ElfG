@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IGroupRepository, GroupRepository>();
 builder.Services.AddTransient<IGroupNoteRepository, GroupNoteRepository>();
+builder.Services.AddTransient<IGroupSessionRepository, GroupSessionRepository>();
 
 var app = builder.Build();
 

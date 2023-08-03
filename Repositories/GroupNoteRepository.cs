@@ -11,6 +11,39 @@ namespace ElfG.Repositories
     {
         public GroupNoteRepository(IConfiguration configuration) : base(configuration) { }
 
+        public List<GroupNote> GetAllNotes()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    SELECT Id, UserId, GroupId, Type, Title, [Text], RelDate, PostedOn 
+                    FROM GroupNote;";
+                    var reader = cmd.ExecuteReader();
+                    var notes = new List<GroupNote>();
+                    while (reader.Read())
+                    {
+                        notes.Add(new GroupNote()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            UserId = DbUtils.GetInt(reader, "UserId"),
+                            GroupId = DbUtils.GetInt(reader, "GroupId"),
+                            Type = DbUtils.GetString(reader, "Type"),
+                            Title = DbUtils.GetString(reader, "Title"),
+                            Text = DbUtils.GetString(reader, "Text"),
+                            RelDate = DbUtils.GetDateTime(reader, "RelDate"),
+                            PostedOn = DbUtils.GetDateTime(reader, "PostedOn")
+                        });
+                    }
+                    reader.Close();
+
+                    return notes;
+                }
+            }
+        }
+
         public List<GroupNote> GetNotesByGroupId(int groupId)
         {
             using (var conn = Connection)

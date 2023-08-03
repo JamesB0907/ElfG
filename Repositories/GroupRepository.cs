@@ -25,9 +25,10 @@ namespace ElfG.Repositories
                     {
                         groups.Add(new Group()
                         {
-                            Id = DbUtils.GetInt(reader, "GroupId"),
+                            Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "GroupName"),
-                            Description = DbUtils.GetString(reader, "GroupDescription")
+                            Description = DbUtils.GetString(reader, "Description"),
+                            UserId = DbUtils.GetInt(reader,"UserId")
                         });
                     }
                     reader.Close();
@@ -66,25 +67,67 @@ namespace ElfG.Repositories
                 }
             }
 
-            return null; // Return null if no group with the given id is found
+            return null;
         }
 
-public void AddGroup(Group group)
+        public void AddGroup(Group group)
         {
-            // Placeholder implementation
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO [Group] (GroupName, [Description], UserId)
+                        VALUES (@GroupName, @Description, @UserId)";
+
+                    DbUtils.AddParameter(cmd, "@GroupName", group.Name);
+                    DbUtils.AddParameter(cmd, "@Description", group.Description);
+                    DbUtils.AddParameter(cmd, "@UserId", group.UserId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void DeleteGroup(int id)
         {
-            // Placeholder implementation
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        DELETE FROM [Group]
+                        WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void EditGroup(Group group)
         {
-            // Placeholder implementation
-            throw new NotImplementedException();
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE [Group]
+                        SET GroupName = @GroupName, [Description] = @Description, UserId = @UserId
+                        WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", group.Id);
+                    DbUtils.AddParameter(cmd, "@GroupName", group.Name);
+                    DbUtils.AddParameter(cmd, "@Description", group.Description);
+                    DbUtils.AddParameter(cmd, "@UserId", group.UserId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }
