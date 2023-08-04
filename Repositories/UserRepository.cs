@@ -20,7 +20,7 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT u.Id, u.Username, u.Email, u.UserTypeId, ut.UserTypeName
-                        FROM User u
+                        FROM [User] u
                         LEFT JOIN UserType ut ON u.UserTypeId = ut.Id";
 
                     var reader = cmd.ExecuteReader();
@@ -55,7 +55,7 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT Id, Username, Email, UserTypeId
-                        FROM User
+                        FROM [User]
                         WHERE Id = @Id";
 
                     cmd.Parameters.AddWithValue("@Id", id);
@@ -87,7 +87,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO User (Username, Email, UserTypeId)
+                        INSERT INTO [User] (Username, Email, UserTypeId)
                         VALUES (@Username, @Email, @UserTypeId);
                         SELECT SCOPE_IDENTITY();";
 
@@ -108,7 +108,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        UPDATE User
+                        UPDATE [User]
                         SET Username = @Username, Email = @Email, UserTypeId = @UserTypeId
                         WHERE Id = @Id";
 
@@ -130,7 +130,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        DELETE FROM User
+                        DELETE FROM [User]
                         WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);

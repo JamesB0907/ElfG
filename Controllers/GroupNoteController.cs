@@ -23,7 +23,7 @@ namespace ElfG.Controllers
 
 
         // GET: api/GroupNote/5
-        [HttpGet("{groupId}")]
+        [HttpGet("GroupBy/{groupId}")]
         public IActionResult GetGroupNotesById(int groupId)
         {
             var groupNotes = _groupNoteRepository.GetNotesByGroupId(groupId);
