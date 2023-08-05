@@ -19,7 +19,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, ut.UserTypeName
+                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive ut.UserTypeName
                         FROM [User] u
                         LEFT JOIN UserType ut ON u.UserTypeId = ut.Id";
 
@@ -33,6 +33,7 @@ namespace ElfG.Repositories
                             Username = DbUtils.GetString(reader, "Username"),
                             Email = DbUtils.GetString(reader, "Email"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            IsActive = DbUtils.GetBoolean(reader, "IsActive"),
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "UserTypeId"),
@@ -45,7 +46,7 @@ namespace ElfG.Repositories
                 }
             }
         }
-
+    
         public User GetUserById(int id)
         {
             using (var conn = Connection)
@@ -54,7 +55,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Username, Email, UserTypeId
+                        SELECT Id, Username, Email, UserTypeId, IsActive
                         FROM [User]
                         WHERE Id = @Id";
 
@@ -69,7 +70,8 @@ namespace ElfG.Repositories
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 Username = DbUtils.GetString(reader, "Username"),
                                 Email = DbUtils.GetString(reader, "Email"),
-                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId")
+                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                                IsActive = DbUtils.GetBoolean(reader, "IsActive")
                             };
                         }
                     }
@@ -77,6 +79,43 @@ namespace ElfG.Repositories
             }
 
             return null; 
+        }
+
+        public User GetByEmail(string email)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                { //THIS METHOD IS INCOMPLETE, BECAUSE I WILL NEED TO ADD A BOOLEAN COLUMN "ISACTIVE" TO THE USER TABLE. jUST A REMINDER IF I DO NOT GET TO IT TONIGHT.
+                    cmd.CommandText = @"
+                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive, ut.UserTypeName
+                        FROM [User] u
+                        LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
+                        WHERE Email = @email;";
+                    DbUtils.AddParameter(cmd, "@email", email);
+                    User user = null;
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        user = new User()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Username = DbUtils.GetString(reader, "Username"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            IsActive = DbUtils.GetBoolean(reader, "IsActive"),
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                UserTypeName = DbUtils.GetString(reader, "UserTypeName")
+                            }
+                        };
+                    }
+                    reader.Close();
+                    return user;
+                }
+            }
         }
 
         public void AddUser(User user)
@@ -88,7 +127,7 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO [User] (Username, Email, UserTypeId)
-                        VALUES (@Username, @Email, @UserTypeId);
+                        VALUES (@Username, @Email, @UserTypeId, @IsActive);
                         SELECT SCOPE_IDENTITY();";
 
                     DbUtils.AddParameter(cmd, "@Username", user.Username);

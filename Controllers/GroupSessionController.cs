@@ -51,10 +51,10 @@ namespace ElfG.Controllers
         [HttpPost]
         public IActionResult AddGroupSession(GroupSession groupSession)
         {
-            //if (groupSession == null)
-            //{
-            //    return BadRequest("Group session object is null");
-            //}
+            if (groupSession == null)
+            {
+                return BadRequest("Group session object is null");
+            }
 
             _groupSessionRepository.AddGroupSession(groupSession);
             return CreatedAtAction("Get", new { id = groupSession.Id }, groupSession);
