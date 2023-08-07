@@ -1,35 +1,33 @@
-import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { useNavigate } from "react-router-dom";
-import { register } from "../Managers/UserProfileManager";
+import React, { useState } from "react"
+import { Button, Form, FormGroup, Label, Input } from "reactstrap"
+import { useNavigate } from "react-router-dom"
+import { register } from "../Managers/UserProfileManager"
 
 export default function Register({ setIsLoggedIn }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [userTypeId, setUserTypeId] = useState(1); // Default user type (Player)
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [userTypeId, setUserTypeId] = useState(1)
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
 
   const registerClick = (e) => {
     e.preventDefault();
-    if (password && password !== confirmPassword) {
-      alert("Passwords don't match. Do better.");
-    } else {
+    {
       const userProfile = {
         username,
         email,
         userTypeId,
         isActive: true
-      };
+      }
       register(userProfile, password)
         .then(() => {
-          setIsLoggedIn(true);
-          navigate("/");
-        });
+          setIsLoggedIn(true)
+          navigate("/")
+        })
     }
-  };
+  }
 
   return (
     <Form onSubmit={registerClick}>
@@ -82,5 +80,5 @@ export default function Register({ setIsLoggedIn }) {
         </FormGroup>
       </fieldset>
     </Form>
-  );
+  )
 }

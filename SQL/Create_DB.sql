@@ -29,6 +29,7 @@ CREATE TABLE [User] (
   [Username] VARCHAR(50) NOT NULL,
   [Email] VARCHAR(50) NOT NULL,
   [UserTypeId] INT NOT NULL,
+  [IsActive] BIT NOT NULL,
   CONSTRAINT [FK_User_UserType] FOREIGN KEY ([UserTypeId]) REFERENCES [UserType] ([Id])
 );
 

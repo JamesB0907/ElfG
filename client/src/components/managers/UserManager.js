@@ -21,7 +21,7 @@ const baseUrl = '/api/user';
 }
 
 export const getUserStatus = (email) => {
-  return fetch(`${baseUrl}/user/getbyemail?email=${email}`)
+  return fetch(`${baseUrl}/getbyemail?email=${email}`)
     .then((response) => response.json())
 }
 
@@ -35,16 +35,19 @@ export const getUserStatus = (email) => {
       .then((response) => response.json());
   }
 
- export const addUser = (user) => {
-    return fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
+export const register = () => {
+  return fetch(`${baseUrl}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userObject),
+  })
+  .then((response) => response.json())
+    .then((savedUser) => {
+      localStorage.setItem("user", JSON.stringify(savedUser))
     })
-    .then((response) => response.json());
-  }
+}
 
   export const editUser = (id, user) => {
     return fetch(`${baseUrl}/${id}`, {
