@@ -35,6 +35,18 @@ namespace ElfG.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetByEmail")]
+        public IActionResult GetByEmail(string email)
+        {
+            var user = _userRepository.GetByEmail(email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
         public IActionResult AddUser(User user)
         {

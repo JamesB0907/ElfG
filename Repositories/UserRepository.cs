@@ -87,7 +87,7 @@ namespace ElfG.Repositories
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
-                { //THIS METHOD IS INCOMPLETE, BECAUSE I WILL NEED TO ADD A BOOLEAN COLUMN "ISACTIVE" TO THE USER TABLE. jUST A REMINDER IF I DO NOT GET TO IT TONIGHT.
+                { 
                     cmd.CommandText = @"
                         SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive, ut.UserTypeName
                         FROM [User] u

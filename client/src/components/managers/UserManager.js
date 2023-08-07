@@ -1,5 +1,30 @@
 const baseUrl = '/api/user'; 
 
+  export const login = (userObject) => {
+    return fetch(`${baseUrl}/getbyemail?email=${userObject.email}`)
+      .then((response) => response.json())
+      .then((user) => {
+        if (user && user.id && user.isActive){
+          localStorage.setItem("user", JSON.stringify(user))
+          return user
+        } else {
+          throw new Error("Invalid email or account deactivated")
+        }
+      })
+      .catch((error) => {
+        throw new Error("Invalid email or account deactivated")
+      })
+  }
+
+  export const logout = () => {
+    localStorage.clear()
+}
+
+export const getUserStatus = (email) => {
+  return fetch(`${baseUrl}/user/getbyemail?email=${email}`)
+    .then((response) => response.json())
+}
+
   export const getAllUsers = () => {
     return fetch(baseUrl)
       .then((response) => response.json());
