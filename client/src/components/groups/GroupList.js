@@ -9,7 +9,8 @@ export const GroupList = ({ groups }) => {
         <h1>Join A New Adventure</h1>
         {groups.map((group) => (
           <Col key={group.id} xs="12" md="6" lg="4">
-            <Group group={group} />
+            <Group 
+            group={group} />
           </Col>
         ))}
       </Row>
