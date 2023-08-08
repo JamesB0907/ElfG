@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import { ApplicationViews } from "./ApplicationViews";
 import { useEffect } from 'react';
 import Authorize from './Authorize';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
