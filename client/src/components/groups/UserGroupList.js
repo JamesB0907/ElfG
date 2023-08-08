@@ -1,6 +1,7 @@
 import React from 'react'
 import { Group } from './Group'
 import { Col, Container, Row } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 export const UserGroupList = ({ userGroups }) => {
   return (
@@ -9,7 +10,10 @@ export const UserGroupList = ({ userGroups }) => {
         <Row>
       {userGroups.map((group) => (
         <Col key={group.id} xs="12" md="6" lg="4">
-            <Group group={group} />
+            <Group 
+            group={group}
+            hasUserJoined={true}
+            />
         </Col>
         ))}
         </Row>

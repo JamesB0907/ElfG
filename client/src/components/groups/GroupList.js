@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Row, Col } from 'reactstrap'
 import { Group } from './Group'
 
-export const GroupList = ({ groups }) => {
+export const GroupList = ({ groups, userGroups }) => {
   return (
       <Container>
       <Row>
@@ -10,7 +10,9 @@ export const GroupList = ({ groups }) => {
         {groups.map((group) => (
           <Col key={group.id} xs="12" md="6" lg="4">
             <Group 
-            group={group} />
+            group={group}
+            hasUserJoined={false}
+            />
           </Col>
         ))}
       </Row>

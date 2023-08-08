@@ -15,14 +15,18 @@ export const GroupPage = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      getGroupsByUserId(loggedInUser.id).then((userGroups) => setUserGroups(userGroups));
+      getGroupsByUserId(loggedInUser.id).then((userGroups) => setUserGroups(userGroups))
     }
-  }, [loggedInUser])
-
+  }, [])
   return (
     <div>
-      <GroupList groups={allGroups} />
-      {loggedInUser && <UserGroupList userGroups={userGroups} />}
+      <GroupList 
+      groups={allGroups} 
+      loggedInUser={loggedInUser}
+      />
+      {<UserGroupList 
+      userGroups={userGroups}
+      />}
     </div>
   )
 }
