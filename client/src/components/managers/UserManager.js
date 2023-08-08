@@ -35,7 +35,7 @@ export const getUserStatus = (email) => {
       .then((response) => response.json());
   }
 
-export const register = () => {
+export const register = (userObject) => {
   return fetch(`${baseUrl}`, {
     method: "POST",
     headers: {

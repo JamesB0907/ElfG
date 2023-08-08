@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useNavigate, Link } from "react-router-dom";
-import { login } from "../Managers/UserProfileManager";
-import { getUserStatus } from "../Managers/UserProfileManager";
+import { login } from "./managers/UserManager";
+import { getUserStatus } from "./managers/UserManager";
 
 export default function Login({setIsLoggedIn}) {
   const navigate = useNavigate();

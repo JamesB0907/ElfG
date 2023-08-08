@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
-import Header from "./components/Header";
-import ApplicationViews from "./components/ApplicationViews";
+import NavBar from "./NavBar";
+import { ApplicationViews } from "./ApplicationViews";
 import { useEffect } from 'react';
-import Authorize from './components/Authorize';
+import Authorize from './Authorize';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -18,7 +18,7 @@ function App() {
 
     return (
         <Router>
-            <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             {isLoggedIn ?
 
                 <ApplicationViews />
