@@ -4,10 +4,13 @@ import { getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
 import { GroupSessionList } from '../groupSessions/GroupSessionList'
 import { Container } from 'reactstrap'
 import { format } from 'date-fns'
+import { getGroupNotesByGroupId } from '../managers/NoteManager'
+import { GroupNoteList } from '../notes/GroupNoteList'
 
 export const GroupDetails = () => {
   const { groupId } = useParams()
   const [groupSessions, setGroupSessions] = useState([])
+  const [groupNotes, setGroupNotes] = useState([])
 
   useEffect(() => {
     getGroupSessionsByGroupId(groupId)
@@ -17,15 +20,20 @@ export const GroupDetails = () => {
       .catch((error) => {
         console.error('Error fetching group sessions:', error)
       });
-  }, [groupId])
 
-  // ...
+    getGroupNotesByGroupId(groupId)
+      .then((notes) => {
+        setGroupNotes(notes)
+      })
+      .catch((error) => {
+        console.error('Error fetching group notes:', error)
+      })
+  }, [groupId])
 
   return (
     <Container> 
-      <GroupSessionList 
-      sessions={groupSessions}
-       />
+      <GroupSessionList sessions={groupSessions}/>
+      <GroupNoteList notes={groupNotes} />
         <Outlet />
     </Container>
   )

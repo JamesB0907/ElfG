@@ -18,11 +18,12 @@ export const GroupPage = () => {
       getGroupsByUserId(loggedInUser.id).then((userGroups) => setUserGroups(userGroups))
     }
   }, [])
+
   return (
     <div>
       <GroupList 
       groups={allGroups} 
-      loggedInUser={loggedInUser}
+      userGroups={userGroups}
       />
       {<UserGroupList 
       userGroups={userGroups}

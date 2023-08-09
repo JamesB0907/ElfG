@@ -10,8 +10,8 @@ export const GroupSession = ({ session }) => {
                 <CardTitle>Notes: {session.notes}</CardTitle>
                 <ListGroup>
                     <ListGroupItem>Date: {format(new Date(session.date), 'MMMM d, yyyy')}</ListGroupItem>
-                    <ListGroupItem>Start Time: {format(new Date(session.startTime), 'HH:mm a')}</ListGroupItem>
-                    <ListGroupItem>End Time: {format(new Date(session.endTime), 'hh:mm a')}</ListGroupItem>
+                    <ListGroupItem>Start Time: {format(new Date(session.startTime), 'p')}</ListGroupItem>
+                    <ListGroupItem>End Time: {format(new Date(session.endTime), 'p')}</ListGroupItem>
                 </ListGroup>
             </CardBody>
         </Card>
