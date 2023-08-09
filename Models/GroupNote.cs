@@ -10,6 +10,5 @@
         public string Text { get; set; }
         public DateTime RelDate { get; set; }
         public DateTime PostedOn { get; set; }
-        public User? Poster { get; set; }
     }
 }

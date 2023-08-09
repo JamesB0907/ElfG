@@ -1,28 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import { joinGroup, leaveGroup } from '../managers/UserManager'; // Import the joinGroup and leaveGroup functions
+import { getAllGroups } from '../managers/GroupManager';
 
-export const Group = ({ group, loggedInUser, hasUserJoined }) => {
+export const Group = ({ group, hasUserJoined, setAllGroups }) => {
+  const currentUser = JSON.parse(localStorage.getItem('user'))
+  const navigate = useNavigate()
+
+
   const handleJoinGroup = () => {
-    joinGroup(loggedInUser.id, group.id)
-      .then((response) => {
-        console.log(`Joined group with ID ${group.id}`);
-      })
-      .catch((error) => {
-        console.error('Error joining group:', error);
-      })
+
+    const membershipData = {
+      UserId: currentUser.id,
+      GroupId: group.id
+    }
+
+    joinGroup(membershipData)
+      .then(navigate("/"))
   }
 
   const handleLeaveGroup = () => {
-    leaveGroup(loggedInUser.id, group.id)
-      .then((response) => {
-        console.log(`Left group with ID ${group.id}`);
-      })
-      .catch((error) => {
-        console.error('Error leaving group:', error);
-      })
+    
+    const groupMembershipObject = {
+      userId: currentUser.id,
+      groupId: group.id
+    }
+    leaveGroup(groupMembershipObject)
+      .then(navigate("/"))
   }
+
 
   const joinButton = (
     <Button color="primary" onClick={handleJoinGroup}>

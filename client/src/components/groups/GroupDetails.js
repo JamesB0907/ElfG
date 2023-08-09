@@ -33,7 +33,11 @@ export const GroupDetails = () => {
   return (
     <Container> 
       <GroupSessionList sessions={groupSessions}/>
-      <GroupNoteList notes={groupNotes} />
+      <GroupNoteList 
+      notes={groupNotes}
+      groupId={groupId}
+      setGroupNotes={setGroupNotes}
+      />
         <Outlet />
     </Container>
   )

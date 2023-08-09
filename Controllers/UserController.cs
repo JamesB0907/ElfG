@@ -24,6 +24,12 @@ namespace ElfG.Controllers
             return Ok(_userRepository.GetAllUsers());
         }
 
+        [HttpGet("GetAllGroupMemberships")]
+        public IActionResult GetAllGroupMemberships()
+        {
+            return Ok(_userRepository.GetAllGroupMemberships());
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
@@ -98,18 +104,19 @@ namespace ElfG.Controllers
         }
 
         [HttpPost("{userId}/join-group/{groupId}")]
-        public IActionResult JoinGroup(int userId, int groupId)
+        public IActionResult JoinGroup(GroupMembership groupMembership)
         {
-            _userRepository.JoinGroup(userId, groupId);
-            return NoContent();
+            _userRepository.JoinGroup(groupMembership);
+            return CreatedAtAction("GetAllGroupMemberships", new { id = groupMembership.Id }, groupMembership);
         }
 
-        [HttpPost("{userId}/leave-group/{groupId}")]
+        [HttpDelete("{userId}/leave-group/{groupId}")]
         public IActionResult LeaveGroup(int userId, int groupId)
         {
             _userRepository.LeaveGroup(userId, groupId);
             return NoContent();
         }
+
 
         [HttpPost("{userId}/join-session/{sessionId}")]
         public IActionResult JoinSession(int userId, int sessionId)
@@ -118,7 +125,7 @@ namespace ElfG.Controllers
             return NoContent();
         }
 
-        [HttpPost("{userId}/leave-session/{sessionId}")]
+        [HttpDelete("{userId}/leave-session/{sessionId}")]
         public IActionResult LeaveSession(int userId, int sessionId)
         {
             _userRepository.LeaveSession(userId, sessionId);

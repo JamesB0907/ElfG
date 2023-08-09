@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 const baseUrl = '/api/user'; 
 
-  export const login = (userObject) => {
-    return fetch(`${baseUrl}/getbyemail?email=${userObject.email}`)
-      .then((response) => response.json())
-      .then((user) => {
-        if (user && user.id && user.isActive){
-          localStorage.setItem("user", JSON.stringify(user))
+export const login = (userObject) => {
+  return fetch(`${baseUrl}/getbyemail?email=${userObject.email}`)
+  .then((response) => response.json())
+  .then((user) => {
+    if (user && user.id && user.isActive){
+      localStorage.setItem("user", JSON.stringify(user))
           return user
         } else {
           throw new Error("Invalid email or account deactivated")
@@ -14,10 +16,11 @@ const baseUrl = '/api/user';
       .catch((error) => {
         throw new Error("Invalid email or account deactivated")
       })
-  }
-
-  export const logout = () => {
+    }
+    
+    export const logout = () => {
     localStorage.clear()
+    window.location.href = '/login'
 }
 
 export const getUserStatus = (email) => {
@@ -77,18 +80,21 @@ export const register = (userObject) => {
       .then((response) => response.json());
   }
 
-  export const joinGroup = (userId, groupId) => {
-    return fetch(`${baseUrl}/${userId}/join-group/${groupId}`, {
-      method: 'POST'
-    })
-    .then((response) => response.json());
+  export const joinGroup = (groupMembershipObject) => {
+    return fetch(`${baseUrl}/${groupMembershipObject.UserId}/join-group/${groupMembershipObject.GroupId}`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(groupMembershipObject),
+})
+    .then((response) => response.json())
   }
 
-  export const leaveGroup = (userId, groupId) => {
-    return fetch(`${baseUrl}/${userId}/leave-group/${groupId}`, {
-      method: 'POST'
+  export const leaveGroup = (groupMembershipObject) => {
+    return fetch(`${baseUrl}/${groupMembershipObject.userId}/leave-group/${groupMembershipObject.groupId}`, {
+      method: 'DELETE'
     })
-    .then((response) => response.json());
   }
 
   export const joinSession = (userId, sessionId) => {

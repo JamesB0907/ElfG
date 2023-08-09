@@ -1,13 +1,9 @@
 ﻿using ElfG.Models;
 using ElfG.Utils;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 
 namespace ElfG.Repositories
 {
-    public class UserRepository : BaseRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
         public UserRepository(IConfiguration configuration) : base(configuration) { }
 
@@ -19,7 +15,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive ut.UserTypeName
+                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive, ut.UserTypeName
                         FROM [User] u
                         LEFT JOIN UserType ut ON u.UserTypeId = ut.Id";
 
@@ -46,7 +42,7 @@ namespace ElfG.Repositories
                 }
             }
         }
-    
+
         public User GetUserById(int id)
         {
             using (var conn = Connection)
@@ -78,7 +74,7 @@ namespace ElfG.Repositories
                 }
             }
 
-            return null; 
+            return null;
         }
 
         public User GetByEmail(string email)
@@ -87,7 +83,7 @@ namespace ElfG.Repositories
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
-                { 
+                {
                     cmd.CommandText = @"
                         SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive, ut.UserTypeName
                         FROM [User] u
@@ -251,7 +247,7 @@ namespace ElfG.Repositories
             }
         }
 
-        public void JoinGroup(int userId, int groupId)
+        public void JoinGroup(GroupMembership groupMembership)
         {
             using (var conn = Connection)
             {
@@ -260,12 +256,13 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO GroupMembership (UserId, GroupId)
+                        OUTPUT INSERTED.ID
                         VALUES (@UserId, @GroupId)";
 
-                    DbUtils.AddParameter(cmd, "@UserId", userId);
-                    DbUtils.AddParameter(cmd, "@GroupId", groupId);
+                    DbUtils.AddParameter(cmd, "@UserId", groupMembership.UserId);
+                    DbUtils.AddParameter(cmd, "@GroupId", groupMembership.GroupId);
 
-                    cmd.ExecuteNonQuery();
+                    groupMembership.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
@@ -326,5 +323,33 @@ namespace ElfG.Repositories
                 }
             }
         }
+        public List<GroupMembership> GetAllGroupMemberships()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                SELECT Id, UserId, GroupId
+                FROM GroupMembership";
+
+                    var reader = cmd.ExecuteReader();
+                    var groupMemberships = new List<GroupMembership>();
+                    while (reader.Read())
+                    {
+                        groupMemberships.Add(new GroupMembership()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            UserId = DbUtils.GetInt(reader, "UserId"),
+                            GroupId = DbUtils.GetInt(reader, "GroupId")
+                        });
+                    }
+                    reader.Close();
+                    return groupMemberships;
+                }
+            }
+        }
+
     }
 }

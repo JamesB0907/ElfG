@@ -11,9 +11,7 @@ import { logout } from './managers/UserManager';
 
 function NavBar(args) {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
-
   return (
     <div>
       <Navbar {...args}>

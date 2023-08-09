@@ -24,9 +24,11 @@ export const GroupPage = () => {
       <GroupList 
       groups={allGroups} 
       userGroups={userGroups}
+      setAllGroups={setAllGroups}
       />
       {<UserGroupList 
       userGroups={userGroups}
+      setUserGroups={setUserGroups}
       />}
     </div>
   )
