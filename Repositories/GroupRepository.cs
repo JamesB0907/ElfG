@@ -117,13 +117,12 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         UPDATE [Group]
-                        SET GroupName = @GroupName, [Description] = @Description, UserId = @UserId
+                        SET GroupName = @GroupName, [Description] = @Description
                         WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", group.Id);
                     DbUtils.AddParameter(cmd, "@GroupName", group.Name);
                     DbUtils.AddParameter(cmd, "@Description", group.Description);
-                    DbUtils.AddParameter(cmd, "@UserId", group.UserId);
 
                     cmd.ExecuteNonQuery();
                 }

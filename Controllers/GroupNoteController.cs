@@ -49,7 +49,7 @@ namespace ElfG.Controllers
         }
 
         // PUT: api/GroupNote/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult EditGroupNote(int id, GroupNote groupNote)
         {
             if (groupNote == null || groupNote.Id != id)

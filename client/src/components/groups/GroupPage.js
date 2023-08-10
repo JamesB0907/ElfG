@@ -3,6 +3,7 @@ import { GroupList } from './GroupList'
 import { UserGroupList } from './UserGroupList'
 import { getAllGroups } from '../managers/GroupManager'
 import { getGroupsByUserId } from '../managers/UserManager'
+import { GroupForm } from './GroupForm'
 
 export const GroupPage = () => {
   const [allGroups, setAllGroups] = useState([])
@@ -21,6 +22,7 @@ export const GroupPage = () => {
 
   return (
     <div>
+      <GroupForm setGroups={setAllGroups}/>
       <GroupList 
       groups={allGroups} 
       userGroups={userGroups}

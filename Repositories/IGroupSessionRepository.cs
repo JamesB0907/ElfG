@@ -4,6 +4,7 @@ namespace ElfG.Repositories
 {
     public interface IGroupSessionRepository
     {
+        List<GameType> GetGameTypes();
         List<GroupSession> GetAllSessions();
         void AddGroupSession(GroupSession session);
         void DeleteGroupSession(int id);

@@ -29,12 +29,11 @@ export const deleteGroup = (id) => {
 }
 
 export const editGroup = (id, group) => {
-  return fetch(`${baseUrl}/${id}`, {
+  return fetch(`${baseUrl}?id=${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(group)
   })
-  .then((response) => response.json());
 }

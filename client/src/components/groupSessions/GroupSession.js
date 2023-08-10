@@ -12,6 +12,7 @@ export const GroupSession = ({ session }) => {
                     <ListGroupItem>Date: {format(new Date(session.date), 'MMMM d, yyyy')}</ListGroupItem>
                     <ListGroupItem>Start Time: {format(new Date(session.startTime), 'p')}</ListGroupItem>
                     <ListGroupItem>End Time: {format(new Date(session.endTime), 'p')}</ListGroupItem>
+                    <ListGroupItem>Game Type: {session.gameType.name}</ListGroupItem>
                 </ListGroup>
             </CardBody>
         </Card>

@@ -12,6 +12,30 @@ namespace ElfG.Repositories
     {
         public GroupSessionRepository(IConfiguration configuration) : base(configuration) { }
 
+        public List<GameType> GetGameTypes()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT Id, Name FROM GameType";
+                    var reader = cmd.ExecuteReader();
+                    var gameTypes = new List<GameType>();
+                    while (reader.Read())
+                    {
+                        gameTypes.Add(new GameType()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name")
+                        });
+                    }
+                    reader.Close();
+                    return gameTypes;
+                }
+            }
+        }
+
         public List<GroupSession> GetAllSessions()
         {
             using (var conn = Connection)
@@ -20,8 +44,12 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    SELECT Id, UserId, GroupId, StartTime, EndTime, Location,       Notes, GameTypeId, Date 
-                    FROM GroupSession;";
+                SELECT gs.Id, gs.UserId, gs.GroupId, gs.StartTime, gs.EndTime, 
+                       gs.Location, gs.Notes, gs.GameTypeId, gs.Date,
+                       gt.Id AS GameTypeId, gt.Name AS GameTypeName
+                FROM GroupSession gs
+                INNER JOIN GameType gt ON gs.GameTypeId = gt.Id;";
+
                     var reader = cmd.ExecuteReader();
                     var sessions = new List<GroupSession>();
                     while (reader.Read())
@@ -36,7 +64,12 @@ namespace ElfG.Repositories
                             Location = DbUtils.GetString(reader, "Location"),
                             Notes = DbUtils.GetString(reader, "Notes"),
                             GameTypeId = DbUtils.GetInt(reader, "GameTypeId"),
-                            Date = DbUtils.GetDateTime(reader, "Date")
+                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            GameType = new GameType
+                            {
+                                Id = DbUtils.GetInt(reader, "GameTypeId"),
+                                Name = DbUtils.GetString(reader, "GameTypeName")
+                            }
                         });
                     }
                     reader.Close();
@@ -45,6 +78,7 @@ namespace ElfG.Repositories
                 }
             }
         }
+
         public void AddGroupSession(GroupSession session)
         {
             using (var conn = Connection)
@@ -97,7 +131,7 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         UPDATE GroupSession
-                        SET UserId = @UserId, GroupId = @GroupId, StartTime = @StartTime, EndTime = @EndTime,
+                        SET StartTime = @StartTime, EndTime = @EndTime,
                             Location = @Location, Notes = @Notes, GameTypeId = @GameTypeId, Date = @Date
                         WHERE Id = @Id";
 
@@ -124,9 +158,11 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, UserId, GroupId, StartTime, EndTime, Location, Notes, GameTypeId, Date
-                        FROM GroupSession
-                        WHERE Id = @Id";
+                SELECT gs.Id, gs.UserId, gs.GroupId, gs.StartTime, gs.EndTime, gs.Location, gs.Notes,
+                       gs.GameTypeId, gs.Date, gt.Id AS GameTypeId, gt.Name AS GameTypeName
+                FROM GroupSession gs
+                JOIN GameType gt ON gs.GameTypeId = gt.Id
+                WHERE gs.Id = @Id";
 
                     cmd.Parameters.AddWithValue("@Id", id);
 
@@ -144,7 +180,12 @@ namespace ElfG.Repositories
                             Location = DbUtils.GetString(reader, "Location"),
                             Notes = DbUtils.GetString(reader, "Notes"),
                             GameTypeId = DbUtils.GetInt(reader, "GameTypeId"),
-                            Date = DbUtils.GetDateTime(reader, "Date")
+                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            GameType = new GameType
+                            {
+                                Id = DbUtils.GetInt(reader, "GameTypeId"),
+                                Name = DbUtils.GetString(reader, "GameTypeName")
+                            }
                         };
                     }
 
@@ -154,6 +195,7 @@ namespace ElfG.Repositories
             }
         }
 
+
         public List<GroupSession> GetSessionsByGroupId(int groupId)
         {
             using (var conn = Connection)
@@ -162,9 +204,11 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, UserId, GroupId, StartTime, EndTime, Location, Notes, GameTypeId, Date
-                        FROM GroupSession
-                        WHERE GroupId = @GroupId";
+                SELECT gs.Id, gs.UserId, gs.GroupId, gs.StartTime, gs.EndTime, gs.Location, gs.Notes,
+                       gs.GameTypeId, gs.Date, gt.Id AS GameTypeId, gt.Name AS GameTypeName
+                FROM GroupSession gs
+                JOIN GameType gt ON gs.GameTypeId = gt.Id
+                WHERE gs.GroupId = @GroupId";
 
                     cmd.Parameters.AddWithValue("@GroupId", groupId);
 
@@ -182,7 +226,12 @@ namespace ElfG.Repositories
                             Location = DbUtils.GetString(reader, "Location"),
                             Notes = DbUtils.GetString(reader, "Notes"),
                             GameTypeId = DbUtils.GetInt(reader, "GameTypeId"),
-                            Date = DbUtils.GetDateTime(reader, "Date")
+                            Date = DbUtils.GetDateTime(reader, "Date"),
+                            GameType = new GameType
+                            {
+                                Id = DbUtils.GetInt(reader, "GameTypeId"),
+                                Name = DbUtils.GetString(reader, "GameTypeName")
+                            }
                         });
                     }
 
@@ -191,5 +240,6 @@ namespace ElfG.Repositories
                 }
             }
         }
+
     }
 }

@@ -25,16 +25,14 @@ export const deleteGroupNote = (id) => {
   return fetch(`${baseUrl}/${id}`, {
     method: 'DELETE'
   })
-  .then((response) => response.json());
 }
 
-export const editGroupNote = (id, groupNote) => {
-  return fetch(`${baseUrl}/${id}`, {
+export const editGroupNote = (groupNote) => {
+  return fetch(`${baseUrl}?id=${groupNote.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(groupNote)
   })
-  .then((response) => response.json());
 }

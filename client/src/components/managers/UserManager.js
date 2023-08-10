@@ -67,7 +67,6 @@ export const register = (userObject) => {
     return fetch(`${baseUrl}/${id}`, {
       method: 'DELETE'
     })
-    .then((response) => response.json());
   }
 
   export const getGroupsByUserId = (userId) => {

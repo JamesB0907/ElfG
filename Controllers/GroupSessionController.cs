@@ -21,6 +21,12 @@ namespace ElfG.Controllers
             return Ok(_groupSessionRepository.GetAllSessions());
         }
 
+        [HttpGet("GetGameTypes")]
+        public IActionResult GetGameTypes()
+        {
+            return Ok(_groupSessionRepository.GetGameTypes());
+        }
+
         // GET: api/GroupSession/5
         [HttpGet("{id}")]
         public IActionResult GetGroupSessionById(int id)

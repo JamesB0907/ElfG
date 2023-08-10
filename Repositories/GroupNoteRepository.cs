@@ -126,6 +126,7 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO GroupNote (UserId, GroupId, [Type], Title, [Text], RelDate, PostedOn)
+                        OUTPUT INSERTED.ID
                         VALUES (@UserId, @GroupId, @Type, @Title, @Text, @RelDate, @PostedOn)";
 
                     DbUtils.AddParameter(cmd, "@UserId", note.UserId);
@@ -168,12 +169,10 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         UPDATE GroupNote
-                        SET UserId = @UserId, GroupId = @GroupId, [Type] = @Type, Title = @Title, [Text] = @Text, RelDate = @RelDate, PostedOn = @PostedOn
+                        SET [Type] = @Type, Title = @Title, [Text] = @Text, RelDate = @RelDate, PostedOn = @PostedOn
                         WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", note.Id);
-                    DbUtils.AddParameter(cmd, "@UserId", note.UserId);
-                    DbUtils.AddParameter(cmd, "@GroupId", note.GroupId);
                     DbUtils.AddParameter(cmd, "@Type", note.Type);
                     DbUtils.AddParameter(cmd, "@Title", note.Title);
                     DbUtils.AddParameter(cmd, "@Text", note.Text);
