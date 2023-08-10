@@ -25,7 +25,6 @@ export const deleteGroup = (id) => {
   return fetch(`${baseUrl}/${id}`, {
     method: 'DELETE'
   })
-  .then((response) => response.json());
 }
 
 export const editGroup = (id, group) => {

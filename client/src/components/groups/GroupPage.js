@@ -4,6 +4,7 @@ import { UserGroupList } from './UserGroupList'
 import { getAllGroups } from '../managers/GroupManager'
 import { getGroupsByUserId } from '../managers/UserManager'
 import { GroupForm } from './GroupForm'
+import { getAllGameTypes } from '../managers/GroupSessionManager'
 
 export const GroupPage = () => {
   const [allGroups, setAllGroups] = useState([])

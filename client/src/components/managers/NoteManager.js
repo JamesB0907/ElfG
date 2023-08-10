@@ -1,4 +1,4 @@
-const baseUrl = '/api/groupnote'; 
+const baseUrl = '/api/groupnote'
 
 export const getAllGroupNotes = () => {
   return fetch(baseUrl)
@@ -18,7 +18,7 @@ export const addGroupNote = (groupNote) => {
     },
     body: JSON.stringify(groupNote)
   })
-  .then((response) => response.json());
+  .then((response) => response.json())
 }
 
 export const deleteGroupNote = (id) => {

@@ -6,15 +6,15 @@ GO
 
 USE [ElfG]
 GO
-DROP TABLE IF EXISTS [GroupSession];
-DROP TABLE IF EXISTS [Group];
-DROP TABLE IF EXISTS [FileUpload];
-DROP TABLE IF EXISTS [User];
-DROP TABLE IF EXISTS [GroupNote];
 DROP TABLE IF EXISTS [GroupSessionAttendee];
+DROP TABLE IF EXISTS [GroupSession];
+DROP TABLE IF EXISTS [GroupNote];
 
+DROP TABLE IF EXISTS [FileUpload];
 DROP TABLE IF EXISTS [GameType];
 DROP TABLE IF EXISTS [GroupMembership];
+DROP TABLE IF EXISTS [Group];
+DROP TABLE IF EXISTS [User];
 DROP TABLE IF EXISTS [UserType];
 
 GO
@@ -48,7 +48,7 @@ CREATE TABLE [GroupNote] (
   [Type] VARCHAR(50) NOT NULL,
   [Title] VARCHAR(100) NOT NULL,
   [Text] VARCHAR(1000) NOT NULL,
-  [RelDate] DATE NOT NULL,
+  [RelDate] DATETIME NOT NULL,
   [PostedOn] DATETIME NOT NULL,--INTENDING TO AlTER FROM TIMESTAMP
   CONSTRAINT [FK_GroupNote_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
   CONSTRAINT [FK_GroupNote_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id])
@@ -58,7 +58,7 @@ CREATE TABLE [GroupMembership] (
   [Id] INT PRIMARY KEY IDENTITY,
   [UserId] INT NOT NULL,
   [GroupId] INT NOT NULL,
-  CONSTRAINT [FK_GroupMembership_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id]),
+  CONSTRAINT [FK_GroupMembership_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id]) ON DELETE CASCADE,
   CONSTRAINT [FK_GroupMembership_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
 );
 
@@ -81,10 +81,9 @@ CREATE TABLE [GroupSession] (
   [Id] INT PRIMARY KEY IDENTITY,
   [UserId] INT NOT NULL,
   [GroupId] INT NOT NULL,
-  [GameId] INT NOT NULL,
   [Date] DATE NOT NULL,
-  [StartTime] TIME NOT NULL,
-  [EndTime] TIME NOT NULL,
+  [StartTime] DATETIME NOT NULL,
+  [EndTime] DATETIME NOT NULL,
   [Location] VARCHAR(100) NOT NULL,
   [Notes] TEXT NOT NULL,
   [GameTypeId] INT NOT NULL,
@@ -97,7 +96,7 @@ CREATE TABLE [GroupSessionAttendee] (
   [Id] INT PRIMARY KEY IDENTITY,
   [SessionId] INT NOT NULL,
   [UserId] INT NOT NULL,
-  CONSTRAINT [FK_GroupSessionAttendee_GroupSession] FOREIGN KEY ([SessionId]) REFERENCES [GroupSession] ([Id]),
+  CONSTRAINT [FK_GroupSessionAttendee_GroupSession] FOREIGN KEY ([SessionId]) REFERENCES [GroupSession] ([Id]) ON DELETE CASCADE,
   CONSTRAINT [FK_GroupSessionAttendee_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id])
 );
 GO

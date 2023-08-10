@@ -11,9 +11,5 @@
         public string? Notes { get; set; }
         public int GameTypeId { get; set; }
         public DateTime Date { get; set; }
-        public GameType? GameType { get; set; }
-        public Group? Group { get; set; }
-        public User? UserCreated { get; set; }
-        public List<GroupSessionAttendee>? Attendees { get; set; }
     }
 }

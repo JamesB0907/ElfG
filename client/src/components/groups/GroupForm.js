@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap';
 import { addGroup, getAllGroups } from '../managers/GroupManager'
+import { joinGroup } from '../managers/UserManager';
 
 export const GroupForm = ({ setGroups }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
@@ -80,5 +81,5 @@ export const GroupForm = ({ setGroups }) => {
         </form>
       </Modal>
     </>
-  );
-};
+  )
+}

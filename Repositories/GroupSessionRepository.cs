@@ -88,6 +88,7 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO GroupSession (UserId, GroupId, StartTime, EndTime, Location, Notes, GameTypeId, Date)
+                        OUTPUT INSERTED.ID
                         VALUES (@UserId, @GroupId, @StartTime, @EndTime, @Location, @Notes, @GameTypeId, @Date)";
 
                     cmd.Parameters.AddWithValue("@UserId", session.UserId);

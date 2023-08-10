@@ -24,7 +24,7 @@ export const Group = ({ group, hasUserJoined, setAllGroups }) => {
     const groupMembershipObject = {
       userId: currentUser.id,
       groupId: group.id
-    };
+    }
     leaveGroup(groupMembershipObject)
       .then(navigate("/"))
   }

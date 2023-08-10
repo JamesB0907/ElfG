@@ -1,9 +1,15 @@
 import React from 'react';
 import { GroupSession } from './GroupSession';
+import { GroupSessionForm } from './GroupSessionForm';
+import { Container } from 'reactstrap';
 
-export const GroupSessionList = ({ sessions }) => {
+export const GroupSessionList = ({ sessions, setGroupSessions, groupId }) => {
   return (
-    <div>
+    <Container>
+      <GroupSessionForm 
+      setGroupSessions={setGroupSessions}
+      groupId={groupId}
+      />
       <h4>Group Sessions</h4>
       {sessions.length > 0 ? (
         sessions.map((session) => (
@@ -12,6 +18,6 @@ export const GroupSessionList = ({ sessions }) => {
       ) : (
         <p>No current sessions.</p>
       )}
-    </div>
-  );
-};
+    </Container>
+  )
+}
