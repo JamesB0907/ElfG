@@ -5,11 +5,16 @@ import { getAllGroups } from '../managers/GroupManager'
 import { getGroupsByUserId } from '../managers/UserManager'
 import { GroupForm } from './GroupForm'
 
-export const Context = React.createContext()
+const initialState = {
+  groups: [],
+  userGroups:[],
+}
+
+export const Context = React.createContext(initialState)
 
 export const GroupPage = () => {
-  const [allGroups, setAllGroups] = useState([])
-  const [userGroups, setUserGroups] = useState([])
+  const [allGroups, setAllGroups] = useState(initialState.groups)
+  const [userGroups, setUserGroups] = useState(initialState.userGroups)
   const loggedInUser = JSON.parse(localStorage.getItem('user'))
 
   useEffect(() => {
@@ -25,14 +30,15 @@ export const GroupPage = () => {
           setUserGroups(userGroups))
     }
   }, [])
-
+console.log(`usergroups: ${userGroups}`)
+console.log(`allgroups: ${allGroups}`)
   return (
   <>
-    <Context.Provider value={[allGroups, setAllGroups]}>
+    <Context.Provider value={{allGroups, setAllGroups, userGroups, setUserGroups}}>
     <div>
       <GroupForm setGroups={setAllGroups}/>
       <GroupList 
-      groups={allGroups} 
+      allGroups={allGroups} 
       userGroups={userGroups}
       setAllGroups={setAllGroups}
       />

@@ -7,7 +7,7 @@ import { Context } from './GroupPage'
 export const GroupEdit = ({ group }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
 
-  const [allGroups, setAllGroups, userGroups, setUserGroups] = useContext(Context)
+  const { allGroups, setAllGroups, userGroups, setUserGroups } = useContext(Context)
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editedGroup, updateEditedGroup] = useState({
@@ -28,8 +28,8 @@ export const GroupEdit = ({ group }) => {
     editGroup(saveGroup)
     .then(() => toggleModal())
     .then(() => getAllGroups())
-    .then(() => getGroupsByUserId())
     .then((newGroups) => setAllGroups(newGroups))
+    .then(() => getGroupsByUserId(currentUser.id))
     .then((newUserGroups) => setUserGroups(newUserGroups))
 }
   const isGmOrAdmin = currentUser.userTypeId === 2 || currentUser.userTypeId === 3;

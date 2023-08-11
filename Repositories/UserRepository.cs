@@ -129,6 +129,7 @@ namespace ElfG.Repositories
                     DbUtils.AddParameter(cmd, "@Username", user.Username);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
                     DbUtils.AddParameter(cmd, "@UserTypeId", user.UserTypeId);
+                    DbUtils.AddParameter(cmd, "@IsActive", user.IsActive);
 
                     user.Id = Convert.ToInt32(cmd.ExecuteScalar());
                 }

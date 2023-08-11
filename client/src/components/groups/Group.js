@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap'
-import { joinGroup, leaveGroup } from '../managers/UserManager'
+import { getGroupsByUserId, joinGroup, leaveGroup } from '../managers/UserManager'
 import { deleteGroup, getAllGroups } from '../managers/GroupManager'
 import { GroupEdit } from './GroupEdit'
+import { Context } from './GroupPage'
 
 
-export const Group = ({ group, hasUserJoined, setAllGroups }) => {
+export const Group = ({ group, hasUserJoined }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
   const navigate = useNavigate()
 
+  const { allGroups, setAllGroups, userGroups, setUserGroups } = useContext(Context)
 
   const handleJoinGroup = () => {
 
@@ -19,7 +21,10 @@ export const Group = ({ group, hasUserJoined, setAllGroups }) => {
     }
 
     joinGroup(membershipData)
-      .then(navigate("/"))
+    .then(() => getAllGroups())
+    .then((newGroups) => setAllGroups(newGroups))
+    .then(() => getGroupsByUserId(currentUser.id))
+    .then((newUserGroups) => setUserGroups(newUserGroups))
   }
 
   const handleLeaveGroup = () => {
@@ -28,12 +33,18 @@ export const Group = ({ group, hasUserJoined, setAllGroups }) => {
       groupId: group.id
     }
     leaveGroup(groupMembershipObject)
-      .then(navigate("/"))
+    .then(() => getAllGroups())
+    .then((newGroups) => setAllGroups(newGroups))
+    .then(() => getGroupsByUserId(currentUser.id))
+    .then((newUserGroups) => setUserGroups(newUserGroups))
   }
 
   const handleDeleteGroup = () => {
     deleteGroup(group.id)
-      .then(navigate("/"))
+    .then(() => getAllGroups())
+    .then((newGroups) => setAllGroups(newGroups))
+    .then(() => getGroupsByUserId(currentUser.id))
+    .then((newUserGroups) => setUserGroups(newUserGroups))
   }
 
   const joinButton = (

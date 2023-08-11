@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap'
 import { addGroup, getAllGroups } from '../managers/GroupManager'
-import { joinGroup } from '../managers/UserManager'
+import { getGroupsByUserId, joinGroup } from '../managers/UserManager'
+import { Context } from './GroupPage'
 
-export const GroupForm = ({ setGroups }) => {
+export const GroupForm = () => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
+
+  const { allGroups, setAllGroups, userGroups, setUserGroups } = useContext(Context)
 
   const [modalOpen, setModalOpen] = useState(false);
   const [group, updateGroup] = useState({
@@ -28,8 +31,9 @@ export const GroupForm = ({ setGroups }) => {
     addGroup(newGroup)
     .then(() => toggleModal())
     .then(() => getAllGroups())
-    .then((newData) =>
-      setGroups(newData))
+    .then((newGroups) => setAllGroups(newGroups))
+    .then(() => getGroupsByUserId(currentUser.id))
+    .then((newUserGroups) => setUserGroups(newUserGroups))
     .then(() => updateGroup({
         name: '',
         description: '',

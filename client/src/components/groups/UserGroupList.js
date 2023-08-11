@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Group } from './Group'
 import { Col, Container, Row } from 'reactstrap'
 import { Link } from 'react-router-dom'
+import { Context } from './GroupPage'
 
-export const UserGroupList = ({ userGroups, setUserGroups, setAllGroups }) => {
+export const UserGroupList = () => {
+  const { allGroups, setAllGroups, userGroups, setUserGroups } = useContext(Context)
+
   return (
     <Container>
       <h2>Your Groups</h2>
