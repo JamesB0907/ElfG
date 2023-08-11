@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap'
-import { addGroup, getAllGroups } from '../managers/GroupManager'
-import { joinGroup } from '../managers/UserManager'
+import { editGroup, getAllGroups } from '../managers/GroupManager'
+import { getGroupsByUserId, joinGroup } from '../managers/UserManager'
+import { Context } from './GroupPage'
 
-export const GroupForm = ({ setGroups, group }) => {
+export const GroupEdit = ({ group }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
+
+  const [allGroups, setAllGroups, userGroups, setUserGroups] = useContext(Context)
 
   const [modalOpen, setModalOpen] = useState(false);
   const [editedGroup, updateEditedGroup] = useState({
+    userId: currentUser.id,
     name: group.name,
     description: group.description
   })
@@ -19,22 +23,14 @@ export const GroupForm = ({ setGroups, group }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const newGroup = {
-      name: group.name,
-      description: group.description,
-      userId: currentUser.id,
-    }
-
-    addGroup(newGroup)
+    const saveGroup = { ...editedGroup }
+    saveGroup.id = group.id
+    editGroup(saveGroup)
     .then(() => toggleModal())
     .then(() => getAllGroups())
-    .then((newData) =>
-      setGroups(newData))
-    .then(() => updateGroup({
-        name: '',
-        description: '',
-    })
-  )
+    .then(() => getGroupsByUserId())
+    .then((newGroups) => setAllGroups(newGroups))
+    .then((newUserGroups) => setUserGroups(newUserGroups))
 }
   const isGmOrAdmin = currentUser.userTypeId === 2 || currentUser.userTypeId === 3;
 
@@ -42,37 +38,37 @@ export const GroupForm = ({ setGroups, group }) => {
     <>
       {isGmOrAdmin && (
         <Button color="primary" onClick={toggleModal}>
-          Create Group
+          Edit Group
         </Button>
       )}
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <form onSubmit={handleSubmit}>
-          <ModalHeader toggle={toggleModal}>Create New Group</ModalHeader>
+          <ModalHeader toggle={toggleModal}>Edit Group</ModalHeader>
           <ModalBody>
             <Input
               type="text"
               placeholder="Name"
-              value={group.name}
+              value={editedGroup.name}
               onChange={(e) => {
-                const copy = { ...group }
+                const copy = { ...editedGroup }
                 copy.name = e.target.value
-                updateGroup(copy)
+                updateEditedGroup(copy)
               }}
             />
             <Input
               type="textarea"
               placeholder="Description"
-              value={group.description}
+              value={editedGroup.description}
               onChange={(e) => {
-                const copy = { ...group }
+                const copy = { ...editedGroup }
                 copy.description = e.target.value
-                updateGroup(copy)
+                updateEditedGroup(copy)
               }}
             />
           </ModalBody>
           <ModalFooter>
             <Button type="submit" color="primary">
-              Create
+              Save Changes
             </Button>{' '}
             <Button color="secondary" onClick={toggleModal}>
               Cancel

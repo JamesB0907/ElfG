@@ -60,7 +60,7 @@ namespace ElfG.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult EditGroup(int id, Group group)
         {
             if (group == null || group.Id != id)

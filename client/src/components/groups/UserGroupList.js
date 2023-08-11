@@ -3,7 +3,7 @@ import { Group } from './Group'
 import { Col, Container, Row } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-export const UserGroupList = ({ userGroups, setUserGroups }) => {
+export const UserGroupList = ({ userGroups, setUserGroups, setAllGroups }) => {
   return (
     <Container>
       <h2>Your Groups</h2>
@@ -14,6 +14,7 @@ export const UserGroupList = ({ userGroups, setUserGroups }) => {
             group={group}
             hasUserJoined={true}
             setUserGroups={setUserGroups}
+            setAllGroups={setAllGroups}
             />
         </Col>
         ))}

@@ -19,7 +19,8 @@ export const GroupNoteEdit = ({ note, setGroupNotes }) => {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    
     const saveNote = { ...editedNote }
     saveNote.id = note.id
     saveNote.relDate = new Date(editedNote.relDate).toISOString()

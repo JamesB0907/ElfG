@@ -17,16 +17,10 @@ export const GroupDetails = () => {
       .then((sessions) => {
         setGroupSessions(sessions)
       })
-      .catch((error) => {
-        console.error('Error fetching group sessions:', error)
-      });
 
     getGroupNotesByGroupId(groupId)
       .then((notes) => {
         setGroupNotes(notes)
-      })
-      .catch((error) => {
-        console.error('Error fetching group notes:', error)
       })
   }, [groupId])
 

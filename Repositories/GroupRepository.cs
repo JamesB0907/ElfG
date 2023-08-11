@@ -79,6 +79,7 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO [Group] (GroupName, [Description], UserId)
+                        OUTPUT INSERTED.ID
                         VALUES (@GroupName, @Description, @UserId)";
 
                     DbUtils.AddParameter(cmd, "@GroupName", group.Name);

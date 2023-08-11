@@ -1,8 +1,10 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
-import { joinGroup, leaveGroup } from '../managers/UserManager'; // Import the joinGroup and leaveGroup functions
-import { deleteGroup, getAllGroups } from '../managers/GroupManager';
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap'
+import { joinGroup, leaveGroup } from '../managers/UserManager'
+import { deleteGroup, getAllGroups } from '../managers/GroupManager'
+import { GroupEdit } from './GroupEdit'
+
 
 export const Group = ({ group, hasUserJoined, setAllGroups }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))

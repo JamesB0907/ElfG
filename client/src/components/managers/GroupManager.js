@@ -7,7 +7,7 @@ export const getAllGroups = () => {
 
 export const getGroupById = (id) => {
   return fetch(`${baseUrl}/${id}`)
-    .then((response) => response.json());
+    .then((response) => response.json())
 }
 
 export const addGroup = (group) => {
@@ -18,7 +18,7 @@ export const addGroup = (group) => {
     },
     body: JSON.stringify(group)
   })
-  .then((response) => response.json());
+  .then((response) => response.json())
 }
 
 export const deleteGroup = (id) => {

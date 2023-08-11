@@ -4,7 +4,8 @@ import { UserGroupList } from './UserGroupList'
 import { getAllGroups } from '../managers/GroupManager'
 import { getGroupsByUserId } from '../managers/UserManager'
 import { GroupForm } from './GroupForm'
-import { getAllGameTypes } from '../managers/GroupSessionManager'
+
+export const Context = React.createContext()
 
 export const GroupPage = () => {
   const [allGroups, setAllGroups] = useState([])
@@ -12,16 +13,22 @@ export const GroupPage = () => {
   const loggedInUser = JSON.parse(localStorage.getItem('user'))
 
   useEffect(() => {
-    getAllGroups().then((data) => setAllGroups(data));
+    getAllGroups()
+      .then((data) => 
+        setAllGroups(data));
   }, [])
 
   useEffect(() => {
     if (loggedInUser) {
-      getGroupsByUserId(loggedInUser.id).then((userGroups) => setUserGroups(userGroups))
+      getGroupsByUserId(loggedInUser.id)
+        .then((userGroups) => 
+          setUserGroups(userGroups))
     }
   }, [])
 
   return (
+  <>
+    <Context.Provider value={[allGroups, setAllGroups]}>
     <div>
       <GroupForm setGroups={setAllGroups}/>
       <GroupList 
@@ -32,7 +39,10 @@ export const GroupPage = () => {
       {<UserGroupList 
       userGroups={userGroups}
       setUserGroups={setUserGroups}
+      setAllGroups={setAllGroups}
       />}
     </div>
+      </Context.Provider>
+  </>
   )
 }
