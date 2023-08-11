@@ -27,8 +27,8 @@ export const deleteGroup = (id) => {
   })
 }
 
-export const editGroup = (id, group) => {
-  return fetch(`${baseUrl}?id=${id}`, {
+export const editGroup = (group) => {
+  return fetch(`${baseUrl}?id=${group.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

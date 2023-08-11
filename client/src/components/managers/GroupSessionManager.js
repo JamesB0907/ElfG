@@ -31,15 +31,14 @@ export const addGroupSession = (groupSession) => {
   .then((response) => response.json())
 }
 
-export const editGroupSession = (id, groupSession) => {
-  return fetch(`${baseUrl}?id=${id}`, {
+export const editGroupSession = (groupSession) => {
+  return fetch(`${baseUrl}?id=${groupSession.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(groupSession)
   })
-  .then((response) => response.json());
 }
 
 export const deleteGroupSession = (id) => {

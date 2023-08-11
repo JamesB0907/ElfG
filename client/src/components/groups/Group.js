@@ -67,6 +67,9 @@ export const Group = ({ group, hasUserJoined, setAllGroups }) => {
           <>
             {currentUser.userTypeId === 2 && currentUser.id === group.userId && deleteButton}
             {currentUser.userTypeId === 3 && deleteButton}
+            <GroupEdit 
+            group={group}
+            setAllGroups={setAllGroups}/>
             {leaveButton}
           </>
         ) : (

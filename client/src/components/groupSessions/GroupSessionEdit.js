@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { addGroupSession, getAllGameTypes, getAllGroupSessions, getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
+import { editGroupSession, getAllGameTypes, getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
 
-export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
+export const GroupSessionEdit = ({ setGroupSessions, groupId, session }) => {
     const currentUser = JSON.parse(localStorage.getItem('user'))
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [groupSession, updateGroupSession] = useState({
-        startTime: '',
-        endTime: '',
-        location: '',
-        notes: '',
+    const [editedGroupSession, updateEditedGroupSession] = useState({
+        userId: currentUser.id,
+        groupId: parseInt(groupId),
+        startTime: session.startTime,
+        endTime: session.endTime,
+        location: session.location,
+        notes: session.notes,
         gameTypeId: null,
-        date: '',
+        date: session.date
     })
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const [gameTypes, setGameTypes] = useState([])
@@ -35,34 +37,17 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const newGroupSession = {
-            userId: currentUser.id,
-            groupId: groupId,
-            startTime: groupSession.startTime,
-            endTime: groupSession.endTime,
-            location: groupSession.location,
-            notes: groupSession.notes,
-            gameTypeId: groupSession.gameTypeId,
-            date: groupSession.date,
-        }
-
-        addGroupSession(newGroupSession)
+        const saveSession = { ...editedGroupSession }
+        saveSession.id = session.id
+        editGroupSession(saveSession)
             .then(() => toggleModal())
             .then(() => getGroupSessionsByGroupId(groupId))
             .then((newData) => setGroupSessions(newData))
-            .then(() => updateGroupSession({
-                startTime: '',
-                endTime: '',
-                location: '',
-                notes: '',
-                gameTypeId: null,
-                date: '',
-            })
-        )
+
     }
 
     const handleDropdownSelect = (selectedGameTypeId) => {
-        updateGroupSession({ ...groupSession, gameTypeId: selectedGameTypeId })
+        updateEditedGroupSession({ ...editedGroupSession, gameTypeId: selectedGameTypeId })
     }
 
     const gameTypeOptions = gameTypes.map((gameType) => (
@@ -77,7 +62,7 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
     return (
         <>
             <Button color="primary" onClick={toggleModal}>
-                Create Group Session
+                Edit Group Session
             </Button>
             <Modal isOpen={modalOpen} toggle={toggleModal}>
                 <form onSubmit={handleSubmit}>
@@ -88,11 +73,11 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
                             <Input
                                 type="text"
                                 id="startTime"
-                                value={groupSession.startTime}
+                                value={editedGroupSession.startTime}
                                 onChange={(e) => {
-                                    const copy = { ...groupSession }
+                                    const copy = { ...editedGroupSession }
                                     copy.startTime = e.target.value
-                                    updateGroupSession(copy)
+                                    updateEditedGroupSession(copy)
                                 }}
                             />
                         </FormGroup>
@@ -101,11 +86,11 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
                             <Input
                                 type="text"
                                 id="endTime"
-                                value={groupSession.endTime}
+                                value={editedGroupSession.endTime}
                                 onChange={(e) => {
-                                    const copy = { ...groupSession }
+                                    const copy = { ...editedGroupSession }
                                     copy.endTime = e.target.value
-                                    updateGroupSession(copy)
+                                    updateEditedGroupSession(copy)
                                 }}
                             />
                         </FormGroup>
@@ -114,11 +99,11 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
                             <Input
                                 type="text"
                                 id="location"
-                                value={groupSession.location}
+                                value={editedGroupSession.location}
                                 onChange={(e) => {
-                                    const copy = { ...groupSession }
+                                    const copy = { ...editedGroupSession }
                                     copy.location = e.target.value
-                                    updateGroupSession(copy)
+                                    updateEditedGroupSession(copy)
                                 }}
                             />
                         </FormGroup>
@@ -127,11 +112,11 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
                             <Input
                                 type="textarea"
                                 id="notes"
-                                value={groupSession.notes}
+                                value={editedGroupSession.notes}
                                 onChange={(e) => {
-                                    const copy = { ...groupSession }
+                                    const copy = { ...editedGroupSession }
                                     copy.notes = e.target.value
-                                    updateGroupSession(copy)
+                                    updateEditedGroupSession(copy)
                                 }}
                             />
                         </FormGroup>
@@ -139,8 +124,8 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
                             <Label for="gameType">Game Type</Label>
                             <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
                                 <DropdownToggle caret>
-                                    {groupSession.gameTypeId !== null
-                                        ? gameTypes.find((type) => type.id === groupSession.gameTypeId).name
+                                    {editedGroupSession.gameTypeId !== null
+                                        ? gameTypes.find((type) => type.id === editedGroupSession.gameTypeId).name
                                         : 'Select Game Type'}
                                 </DropdownToggle>
                                 <DropdownMenu>{gameTypeOptions}</DropdownMenu>
@@ -151,18 +136,18 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
                             <Input
                                 type="date"
                                 id="date"
-                                value={groupSession.date}
+                                value={editedGroupSession.date}
                                 onChange={(e) => {
-                                    const copy = { ...groupSession }
+                                    const copy = { ...editedGroupSession }
                                     copy.date = e.target.value
-                                    updateGroupSession(copy)
+                                    updateEditedGroupSession(copy)
                                 }}
                             />
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
                         <Button type="submit" color="primary">
-                            Create
+                            Save Edits
                         </Button>{' '}
                         <Button color="secondary" onClick={toggleModal}>
                             Cancel

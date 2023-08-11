@@ -13,7 +13,12 @@ export const GroupSessionList = ({ sessions, setGroupSessions, groupId }) => {
       <h4>Group Sessions</h4>
       {sessions.length > 0 ? (
         sessions.map((session) => (
-          <GroupSession key={session.id} session={session} />
+          <GroupSession 
+          key={session.id} 
+          session={session}
+          groupId={groupId}
+          setGroupSessions={setGroupSessions}
+          />
         ))
       ) : (
         <p>No current sessions.</p>

@@ -3,17 +3,17 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'react
 import { addGroup, getAllGroups } from '../managers/GroupManager'
 import { joinGroup } from '../managers/UserManager'
 
-export const GroupForm = ({ setGroups }) => {
+export const GroupForm = ({ setGroups, group }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [group, updateGroup] = useState({
-    name: '',
-    description: '',
+  const [editedGroup, updateEditedGroup] = useState({
+    name: group.name,
+    description: group.description
   })
 
   const toggleModal = () => {
-    setModalOpen(!modalOpen);
+    setModalOpen(!modalOpen)
   }
 
   const handleSubmit = (e) => {

@@ -67,7 +67,7 @@ namespace ElfG.Controllers
         }
 
         // PUT: api/GroupSession/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult EditGroupSession(int id, GroupSession groupSession)
         {
             if (groupSession == null || groupSession.Id != id)

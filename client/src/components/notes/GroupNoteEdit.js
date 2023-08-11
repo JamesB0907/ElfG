@@ -15,7 +15,7 @@ export const GroupNoteEdit = ({ note, setGroupNotes }) => {
   })
 
   const toggleModal = () => {
-    setModalOpen(!modalOpen);
+    setModalOpen(!modalOpen)
   }
 
   const handleSubmit = (e) => {
