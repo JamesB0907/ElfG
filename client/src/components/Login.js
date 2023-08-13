@@ -5,22 +5,22 @@ import { login } from "./managers/UserManager";
 import { getUserStatus } from "./managers/UserManager";
 
 export default function Login({setIsLoggedIn}) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [email, setEmail] = useState()
 
 
   const loginSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     login({ email })
       .then((user) => {
-        setIsLoggedIn(true);
-        navigate("/");
+        setIsLoggedIn(true)
+        navigate("/")
       })
       .catch((error) => {
         alert(error.message)
-      });
-  };
+      })
+  }
   
   return (
     <Form onSubmit={loginSubmit}>
