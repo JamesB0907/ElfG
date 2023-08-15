@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
 import { GroupSessionList } from '../groupSessions/GroupSessionList'
 import { Container } from 'reactstrap'
-import { format } from 'date-fns'
 import { getGroupNotesByGroupId } from '../managers/NoteManager'
 import { GroupNoteList } from '../notes/GroupNoteList'
 import { getSessionsByUserId } from '../managers/UserManager'
-import { UserSessionList } from '../groupSessions/UserSessionList'
 import { GroupSessionForm } from '../groupSessions/GroupSessionForm'
+import { UserSessionList } from '../groupSessions/UserSessionList'
 
 const sessionsInitialState ={
   groupSessions:[],
@@ -33,7 +32,7 @@ export const GroupDetails = () => {
     .then((notes) => {
         setGroupNotes(notes)
       })
-    }, [])
+    }, [groupId])
     
     useEffect(() => {
       if (currentUser) {

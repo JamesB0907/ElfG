@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { GroupSession } from './GroupSession';
-import { GroupSessionForm } from './GroupSessionForm';
 import { Container } from 'reactstrap';
-import { getSessionsByUserId } from '../managers/UserManager';
-import { UserSessionList } from './UserSessionList';
 import { SessionContext } from '../groups/GroupDetails';
 
 export const GroupSessionList = ({ groupId }) => {
