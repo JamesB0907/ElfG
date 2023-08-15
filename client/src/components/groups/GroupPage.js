@@ -30,8 +30,6 @@ export const GroupPage = () => {
           setUserGroups(userGroups))
     }
   }, [])
-console.log(`usergroups: ${userGroups}`)
-console.log(`allgroups: ${allGroups}`)
   return (
   <>
     <Context.Provider value={{allGroups, setAllGroups, userGroups, setUserGroups}}>

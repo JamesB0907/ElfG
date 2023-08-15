@@ -6,37 +6,63 @@ import { Container } from 'reactstrap'
 import { format } from 'date-fns'
 import { getGroupNotesByGroupId } from '../managers/NoteManager'
 import { GroupNoteList } from '../notes/GroupNoteList'
+import { getSessionsByUserId } from '../managers/UserManager'
+import { UserSessionList } from '../groupSessions/UserSessionList'
+import { GroupSessionForm } from '../groupSessions/GroupSessionForm'
+
+const sessionsInitialState ={
+  groupSessions:[],
+  userSessions:[]
+}
+
+export const SessionContext = React.createContext(sessionsInitialState)
 
 export const GroupDetails = () => {
+  const currentUser = JSON.parse(localStorage.getItem('user'))
   const { groupId } = useParams()
-  const [groupSessions, setGroupSessions] = useState([])
+  const [groupSessions, setGroupSessions] = useState(sessionsInitialState.groupSessions)
+  const [userSessions, setUserSessions] = useState(sessionsInitialState.userSessions)
   const [groupNotes, setGroupNotes] = useState([])
-
+  
   useEffect(() => {
     getGroupSessionsByGroupId(groupId)
-      .then((sessions) => {
-        setGroupSessions(sessions)
-      })
-
+    .then((sessions) => {
+      setGroupSessions(sessions)
+    })
     getGroupNotesByGroupId(groupId)
-      .then((notes) => {
+    .then((notes) => {
         setGroupNotes(notes)
       })
-  }, [groupId])
+    }, [])
+    
+    useEffect(() => {
+      if (currentUser) {
+        getSessionsByUserId(currentUser.id)
+          .then((groupSessions) => {
+            setUserSessions(groupSessions)
+          })
+      }
+    }, [])
 
   return (
-    <Container> 
-      <GroupSessionList 
-      sessions={groupSessions}
+
+    <SessionContext.Provider value={{groupSessions, setGroupSessions, userSessions, setUserSessions}}>
+    <Container>
+      <GroupSessionForm 
       groupId={groupId}
-      setGroupSessions={setGroupSessions}
+      />
+      <UserSessionList 
+      groupId={groupId}
+      />
+      <GroupSessionList 
+      groupId={groupId}
       />
       <GroupNoteList 
       notes={groupNotes}
       groupId={groupId}
       setGroupNotes={setGroupNotes}
       />
-        <Outlet />
     </Container>
+    </SessionContext.Provider>
   )
 }

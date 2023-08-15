@@ -9,20 +9,20 @@ INSERT INTO UserType (Id, UserTypeName) VALUES
 SET IDENTITY_INSERT UserType OFF;
 
 SET IDENTITY_INSERT [User] ON;
-INSERT INTO [User] (Id, Username, Email, UserTypeId, IsActive) VALUES
-  (1, 'JohnDoe', 'john.doe@example.com', 1, 1),
-  (2, 'JaneSmith', 'jane.smith@example.com', 1, 1),
-  (3, 'GMMaster', 'gm.master@example.com', 2, 1),
-  (4, 'Player1', 'player1@example.com', 1, 1),
-  (5, 'Player2', 'player2@example.com', 1, 1),
-  (6, 'Player3', 'player3@example.com', 1, 1),
-  (7, 'Player4', 'player4@example.com', 1, 1),
-  (8, 'Player5', 'player5@example.com', 1, 1),
-  (9, 'Player6', 'player6@example.com', 1, 1),
-  (10,'GameMASTER4', 'gm4@example.com', 2, 1),
-  (11, 'ADMIN', 'admin@example.com', 3 ,1),
-  (12, 'GAMEmaster12', 'gm12@example.com', 2, 1),
-  (13, 'Player7', 'player7@example.com', 1, 1);
+INSERT INTO [User] (Id, Username, Email, UserTypeId) VALUES
+  (1, 'JohnDoe', 'john.doe@example.com', 1),
+  (2, 'JaneSmith', 'jane.smith@example.com', 1),
+  (3, 'GMMaster', 'gm.master@example.com', 2),
+  (4, 'Player1', 'player1@example.com', 1),
+  (5, 'Player2', 'player2@example.com', 1),
+  (6, 'Player3', 'player3@example.com', 1),
+  (7, 'Player4', 'player4@example.com', 1),
+  (8, 'Player5', 'player5@example.com', 1),
+  (9, 'Player6', 'player6@example.com', 1),
+  (10,'GameMASTER4', 'gm4@example.com', 2),
+  (11, 'ADMIN', 'admin@example.com', 3),
+  (12, 'GAMEmaster12', 'gm12@example.com', 2),
+  (13, 'Player7', 'player7@example.com', 1);
 SET IDENTITY_INSERT [User] OFF;
 
 SET IDENTITY_INSERT [Group] ON;
@@ -70,7 +70,15 @@ INSERT INTO [GameType] (Id, Name) VALUES
   (7, 'Carcassonne'),
   (8, 'Twilight Imperium'),
   (9, 'Call of Cthulhu'),
-  (10, 'King of Tokyo');
+  (10, 'King of Tokyo'),
+  (11, 'Everdell'),
+  (12, 'SmallWorld'),
+  (13, 'Munchkin'),
+  (14, 'Savage Worlds'),
+  (15, 'Spelljammer'),
+  (16, 'Betrayal at House on the Hill'),
+  (17, 'Arkham Horror'),
+  (18, 'Other');
 SET IDENTITY_INSERT GameType OFF;
 
 SET IDENTITY_INSERT FileUpload ON;
@@ -82,9 +90,9 @@ SET IDENTITY_INSERT FileUpload OFF;
 SET IDENTITY_INSERT GroupSession ON;
 INSERT INTO [GroupSession] (Id, UserId, GroupId, GameTypeId, [Date], StartTime, EndTime, [Location], Notes)
 VALUES
-  (1, 3, 1, 1, '2023-07-25 00:00:00', '18:00:00', '22:00:00', 'Tavern', 'Prepare for a tough battle...'),
-  (2, 10, 2, 1, '2023-07-27 00:00:00', '19:00:00', '23:00:00', 'Friend''s House', 'Bring your favorite snacks...'),
-  (3, 3, 1, 1, '2023-07-30 00:00:00', '20:00:00', '23:00:00', 'Wizard''s Tower', 'Unravel the mysteries...');
+  (1, 3, 1, 1, '2023-07-25 00:00:00', '6:00 PM', '10:00 PM', 'Tavern', 'Prepare for a tough battle...'),
+  (2, 10, 2, 1, '2023-07-27 00:00:00', '5:30 PM', '8:00 PM', 'Friend''s House', 'Bring your favorite snacks...'),
+  (3, 3, 1, 1, '2023-07-30 00:00:00', '8:00 PM', '12:00 AM', 'Wizard''s Tower', 'Unravel the mysteries...');
 SET IDENTITY_INSERT GroupSession OFF;
 
 SET IDENTITY_INSERT GroupSessionAttendee ON;
@@ -94,9 +102,6 @@ INSERT INTO [GroupSessionAttendee] (Id, SessionId, UserId) VALUES
   (3, 1, 4),
   (4, 2, 2),
   (5, 2, 5),
-  (6, 2, 6),
-  (7, 3, 1),
-  (8, 3, 4),
-  (9, 3, 5);
+  (6, 2, 6);
 SET IDENTITY_INSERT GroupSessionAttendee OFF;
 GO

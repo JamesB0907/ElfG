@@ -18,8 +18,7 @@ export default function Register({ setIsLoggedIn }) {
       const userProfile = {
         username,
         email,
-        userTypeId,
-        isActive: true
+        userTypeId
       }
       register(userProfile, password)
         .then(() => {

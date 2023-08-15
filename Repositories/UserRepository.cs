@@ -15,7 +15,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive, ut.UserTypeName
+                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, ut.UserTypeName
                         FROM [User] u
                         LEFT JOIN UserType ut ON u.UserTypeId = ut.Id";
 
@@ -29,7 +29,6 @@ namespace ElfG.Repositories
                             Username = DbUtils.GetString(reader, "Username"),
                             Email = DbUtils.GetString(reader, "Email"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                            IsActive = DbUtils.GetBoolean(reader, "IsActive"),
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "UserTypeId"),
@@ -51,7 +50,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Username, Email, UserTypeId, IsActive
+                        SELECT Id, Username, Email, UserTypeId
                         FROM [User]
                         WHERE Id = @Id";
 
@@ -66,8 +65,7 @@ namespace ElfG.Repositories
                                 Id = DbUtils.GetInt(reader, "Id"),
                                 Username = DbUtils.GetString(reader, "Username"),
                                 Email = DbUtils.GetString(reader, "Email"),
-                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                                IsActive = DbUtils.GetBoolean(reader, "IsActive")
+                                UserTypeId = DbUtils.GetInt(reader, "UserTypeId")
                             };
                         }
                     }
@@ -85,7 +83,7 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, u.IsActive, ut.UserTypeName
+                        SELECT u.Id, u.Username, u.Email, u.UserTypeId, ut.UserTypeName
                         FROM [User] u
                         LEFT JOIN UserType ut ON u.UserTypeId = ut.Id
                         WHERE Email = @email;";
@@ -100,7 +98,6 @@ namespace ElfG.Repositories
                             Username = DbUtils.GetString(reader, "Username"),
                             Email = DbUtils.GetString(reader, "Email"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-                            IsActive = DbUtils.GetBoolean(reader, "IsActive"),
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
@@ -123,13 +120,12 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO [User] (Username, Email, UserTypeId)
-                        VALUES (@Username, @Email, @UserTypeId, @IsActive);
+                        VALUES (@Username, @Email, @UserTypeId);
                         SELECT SCOPE_IDENTITY();";
 
                     DbUtils.AddParameter(cmd, "@Username", user.Username);
                     DbUtils.AddParameter(cmd, "@Email", user.Email);
                     DbUtils.AddParameter(cmd, "@UserTypeId", user.UserTypeId);
-                    DbUtils.AddParameter(cmd, "@IsActive", user.IsActive);
 
                     user.Id = Convert.ToInt32(cmd.ExecuteScalar());
                 }
@@ -209,7 +205,7 @@ namespace ElfG.Repositories
             }
         }
 
-        public List<GroupSession> GetSessionsByUserId(int userId)
+        public List<GroupSession> GetSessionsByUserId(int currentUserId)
         {
             using (var conn = Connection)
             {
@@ -217,13 +213,13 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT gs.Id, gs.UserId, gs.GroupId, gs.StartTime, gs.EndTime,
-                               gs.Location, gs.Notes, gs.GameTypeId, gs.Date
+                        SELECT gs.Id, gs.UserId as createdUserId, gs.GroupId, gs.StartTime, gs.EndTime,
+                               gs.Location, gs.Notes, gs.GameTypeId, gs.Date, gsa.UserId AS AttendeeId
                         FROM GroupSession gs
                         INNER JOIN GroupSessionAttendee gsa ON gs.Id = gsa.SessionId
-                        WHERE gsa.UserId = @UserId";
+                        WHERE gsa.UserId = @CurrentUserId";
 
-                    DbUtils.AddParameter(cmd, "@UserId", userId);
+                    DbUtils.AddParameter(cmd, "@CurrentUserId", currentUserId);
 
                     var reader = cmd.ExecuteReader();
                     var sessions = new List<GroupSession>();
@@ -232,14 +228,15 @@ namespace ElfG.Repositories
                         sessions.Add(new GroupSession()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            UserId = DbUtils.GetInt(reader, "UserId"),
+                            UserId = DbUtils.GetInt(reader, "CreatedUserId"),
                             GroupId = DbUtils.GetInt(reader, "GroupId"),
                             StartTime = DbUtils.GetString(reader, "StartTime"),
                             EndTime = DbUtils.GetString(reader, "EndTime"),
                             Location = DbUtils.GetString(reader, "Location"),
                             Notes = DbUtils.GetString(reader, "Notes"),
                             GameTypeId = DbUtils.GetInt(reader, "GameTypeId"),
-                            Date = DbUtils.GetDateTime(reader, "Date")
+                            Date = DbUtils.GetDateTime(reader, "Date"),
+
                         });
                     }
                     reader.Close();
@@ -287,7 +284,7 @@ namespace ElfG.Repositories
             }
         }
 
-        public void JoinSession(int userId, int sessionId)
+        public void JoinSession(GroupSessionAttendee groupSessionAttendee)
         {
             using (var conn = Connection)
             {
@@ -296,12 +293,13 @@ namespace ElfG.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO GroupSessionAttendee (UserId, SessionId)
+                        OUTPUT INSERTED.ID
                         VALUES (@UserId, @SessionId)";
 
-                    DbUtils.AddParameter(cmd, "@UserId", userId);
-                    DbUtils.AddParameter(cmd, "@SessionId", sessionId);
+                    DbUtils.AddParameter(cmd, "@UserId", groupSessionAttendee.UserId);
+                    DbUtils.AddParameter(cmd, "@SessionId", groupSessionAttendee.SessionId);
 
-                    cmd.ExecuteNonQuery();
+                    groupSessionAttendee.Id = (int)cmd.ExecuteScalar();
                 }
             }
         }
@@ -349,6 +347,32 @@ namespace ElfG.Repositories
                     reader.Close();
                     return groupMemberships;
                 }
+            }
+        }
+        public List<GroupSessionAttendee> GetAllSessionAttendees()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                SELECT Id, UserId, SessionId
+                FROM GroupSessionAttendee";
+                    var reader = cmd.ExecuteReader();
+                    var groupSessionAttendees = new List<GroupSessionAttendee>();
+                    while (reader.Read())
+                    {
+                        groupSessionAttendees.Add(new GroupSessionAttendee()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            UserId = DbUtils.GetInt(reader,"UserId"),
+                            SessionId = DbUtils.GetInt(reader, "SessionId")
+                        });
+                    }
+                    reader.Close();
+                    return groupSessionAttendees;
+                }  
             }
         }
 

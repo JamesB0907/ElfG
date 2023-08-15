@@ -5,7 +5,7 @@ export const login = (userObject) => {
   return fetch(`${baseUrl}/getbyemail?email=${userObject.email}`)
   .then((response) => response.json())
   .then((user) => {
-    if (user && user.id && user.isActive){
+    if (user && user.id){
       localStorage.setItem("user", JSON.stringify(user))
           return user
         } else {
@@ -73,8 +73,8 @@ export const register = (userObject) => {
       .then((response) => response.json());
   }
 
-  export const getSessionsByUserId = (userId) => {
-    return fetch(`${baseUrl}/${userId}/sessions`)
+  export const getSessionsByUserId = (currentUserId) => {
+    return fetch(`${baseUrl}/${currentUserId}/sessions`)
       .then((response) => response.json());
   }
 
@@ -95,18 +95,21 @@ export const register = (userObject) => {
     })
   }
 
-  export const joinSession = (userId, sessionId) => {
-    return fetch(`${baseUrl}/${userId}/join-session/${sessionId}`, {
-      method: 'POST'
+  export const joinSession = (sessionAttendee) => {
+    return fetch(`${baseUrl}/${sessionAttendee.UserId}/join-session/${sessionAttendee.sessionId}`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(sessionAttendee),
     })
-    .then((response) => response.json());
+    .then((response) => response.json())
   }
 
-  export const leaveSession = (userId, sessionId) => {
-    return fetch(`${baseUrl}/${userId}/leave-session/${sessionId}`, {
-      method: 'POST'
+  export const leaveSession = (sessionAttendee) => {
+    return fetch(`${baseUrl}/${sessionAttendee.userId}/leave-session/${sessionAttendee.sessionId}`, {
+      method: 'DELETE'
     })
-    .then((response) => response.json());
   }
 
 

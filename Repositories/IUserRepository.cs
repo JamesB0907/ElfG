@@ -11,11 +11,12 @@ namespace ElfG.Repositories
         List<User> GetAllUsers();
         User GetByEmail(string email);
         List<Group> GetGroupsByUserId(int userId);
-        List<GroupSession> GetSessionsByUserId(int userId);
+        List<GroupSession> GetSessionsByUserId(int currentUserId);
         User GetUserById(int id);
         void JoinGroup(GroupMembership groupMembership);
-        void JoinSession(int userId, int sessionId);
+        void JoinSession(GroupSessionAttendee groupSessionAttendee);
         void LeaveGroup(int userId, int groupId);
         void LeaveSession(int userId, int sessionId);
+        List<GroupSessionAttendee> GetAllSessionAttendees();
     }
 }

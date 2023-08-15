@@ -10,8 +10,10 @@ import {
 import { logout } from './managers/UserManager';
 
 function NavBar(args) {
+  
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const currentUser = JSON.parse(localStorage.getItem('user'))
   return (
     <div>
       <Navbar {...args}>
@@ -19,12 +21,16 @@ function NavBar(args) {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="me-auto" navbar>
+            {currentUser ?
+          <h2>{currentUser.username}</h2>
+              :""
+            }
             <Button onClick={logout}>logout</Button>
           </Nav>
         </Collapse>
       </Navbar>
     </div>
-  );
+  )
 }
 
 export default NavBar;
