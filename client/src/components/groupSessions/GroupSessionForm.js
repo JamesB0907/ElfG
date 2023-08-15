@@ -74,11 +74,14 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
         </DropdownItem>
     ))
 
+    const isGmOrAdmin = currentUser.userTypeId === 2 || currentUser.userTypeId === 3
+
     return (
         <>
+            {isGmOrAdmin &&(
             <Button color="primary" onClick={toggleModal}>
                 Create Group Session
-            </Button>
+            </Button>)}
             <Modal isOpen={modalOpen} toggle={toggleModal}>
                 <form onSubmit={handleSubmit}>
                     <ModalHeader toggle={toggleModal}>Create New Group Session</ModalHeader>

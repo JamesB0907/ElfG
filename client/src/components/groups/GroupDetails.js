@@ -8,6 +8,7 @@ import { getGroupNotesByGroupId } from '../managers/NoteManager'
 import { GroupNoteList } from '../notes/GroupNoteList'
 import { getSessionsByUserId } from '../managers/UserManager'
 import { UserSessionList } from '../groupSessions/UserSessionList'
+import { GroupSessionForm } from '../groupSessions/GroupSessionForm'
 
 const sessionsInitialState ={
   groupSessions:[],
@@ -19,8 +20,8 @@ export const SessionContext = React.createContext(sessionsInitialState)
 export const GroupDetails = () => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
   const { groupId } = useParams()
-  const [groupSessions, setGroupSessions] = useState([sessionsInitialState.groupSessions])
-  const [userSessions, setUserSessions] = useState([sessionsInitialState.userSessions])
+  const [groupSessions, setGroupSessions] = useState(sessionsInitialState.groupSessions)
+  const [userSessions, setUserSessions] = useState(sessionsInitialState.userSessions)
   const [groupNotes, setGroupNotes] = useState([])
   
   useEffect(() => {
@@ -42,17 +43,19 @@ export const GroupDetails = () => {
           })
       }
     }, [])
-console.log(userSessions)
+
   return (
 
     <SessionContext.Provider value={{groupSessions, setGroupSessions, userSessions, setUserSessions}}>
-    <Container> 
+    <Container>
+      <GroupSessionForm 
+      groupId={groupId}
+      />
       <UserSessionList 
       groupId={groupId}
       />
       <GroupSessionList 
       groupId={groupId}
-      setGroupSessions={setGroupSessions}
       />
       <GroupNoteList 
       notes={groupNotes}

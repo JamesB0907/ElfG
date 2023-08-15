@@ -11,14 +11,13 @@ export const GroupSessionList = ({ groupId }) => {
   const {groupSessions, setGroupSessions, userSessions, setUserSessions} = useContext(SessionContext)
   
   const currentUser = JSON.parse(localStorage.getItem('user'))
-  const sessionsWithoutUser = groupSessions.filter((session) => !userSessions.some((userSession) => userSession.id === session.id))
+  const sessionsWithoutUser = groupSessions?.length > 0
+  ? groupSessions.filter((session) =>
+      !userSessions.some((userSession) => userSession.id === session.id)
+    )
+  : []
   return (
     <Container>
-      
-      <GroupSessionForm 
-      setGroupSessions={setGroupSessions}
-      groupId={groupId}
-      />
       <h4>Group Sessions</h4>
       {groupSessions.length > 0 ? (
         sessionsWithoutUser.map((session) => (

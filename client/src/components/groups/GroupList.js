@@ -6,7 +6,7 @@ import { Context } from './GroupPage';
 export const GroupList = ({ }) => {
   const { allGroups, setAllGroups, userGroups, setUserGroups } = useContext(Context)
 
-  const groupsWithoutUser = allGroups.filter((group) => !userGroups.some((userGroup) => userGroup.id === group.id))
+  const groupsWithoutUser = allGroups?.filter((group) => !userGroups.some((userGroup) => userGroup.id === group.id))
   return (
     <Container>
       <Row>
