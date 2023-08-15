@@ -103,10 +103,10 @@ namespace ElfG.Controllers
             return Ok(_userRepository.GetGroupsByUserId(userId));
         }
 
-        [HttpGet("{userId}/sessions")]
-        public IActionResult GetSessionsByUserId(int userId)
+        [HttpGet("{currentUserId}/sessions")]
+        public IActionResult GetSessionsByUserId(int currentUserId)
         {
-            return Ok(_userRepository.GetSessionsByUserId(userId));
+            return Ok(_userRepository.GetSessionsByUserId(currentUserId));
         }
 
         [HttpPost("{userId}/join-group/{groupId}")]

@@ -7,6 +7,7 @@ import { format } from 'date-fns'
 import { getGroupNotesByGroupId } from '../managers/NoteManager'
 import { GroupNoteList } from '../notes/GroupNoteList'
 import { getSessionsByUserId } from '../managers/UserManager'
+import { UserSessionList } from '../groupSessions/UserSessionList'
 
 const sessionsInitialState ={
   groupSessions:[],
@@ -21,33 +22,34 @@ export const GroupDetails = () => {
   const [groupSessions, setGroupSessions] = useState([sessionsInitialState.groupSessions])
   const [userSessions, setUserSessions] = useState([sessionsInitialState.userSessions])
   const [groupNotes, setGroupNotes] = useState([])
-
+  
   useEffect(() => {
     getGroupSessionsByGroupId(groupId)
-      .then((sessions) => {
-        setGroupSessions(sessions)
-      })
-
+    .then((sessions) => {
+      setGroupSessions(sessions)
+    })
     getGroupNotesByGroupId(groupId)
-      .then((notes) => {
+    .then((notes) => {
         setGroupNotes(notes)
       })
-  }, [groupId])
-
-  useEffect(() => {
-    if (currentUser) {
-      getSessionsByUserId(currentUser.id)
-        .then((userSessions) => {
-          const filteredUserSessions =  userSessions.filter((session) => session.groupId === groupId)
-          setUserSessions(filteredUserSessions)
-        })
-    }
-  }, [])
+    }, [])
+    
+    useEffect(() => {
+      if (currentUser) {
+        getSessionsByUserId(currentUser.id)
+          .then((groupSessions) => {
+            setUserSessions(groupSessions)
+          })
+      }
+    }, [])
 console.log(userSessions)
   return (
 
     <SessionContext.Provider value={{groupSessions, setGroupSessions, userSessions, setUserSessions}}>
     <Container> 
+      <UserSessionList 
+      groupId={groupId}
+      />
       <GroupSessionList 
       groupId={groupId}
       setGroupSessions={setGroupSessions}
@@ -57,7 +59,6 @@ console.log(userSessions)
       groupId={groupId}
       setGroupNotes={setGroupNotes}
       />
-        <Outlet />
     </Container>
     </SessionContext.Provider>
   )

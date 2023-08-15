@@ -205,7 +205,7 @@ namespace ElfG.Repositories
             }
         }
 
-        public List<GroupSession> GetSessionsByUserId(int userId)
+        public List<GroupSession> GetSessionsByUserId(int currentUserId)
         {
             using (var conn = Connection)
             {
@@ -213,13 +213,13 @@ namespace ElfG.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT gs.Id, gs.UserId, gs.GroupId, gs.StartTime, gs.EndTime,
-                               gs.Location, gs.Notes, gs.GameTypeId, gs.Date
+                        SELECT gs.Id, gs.UserId as createdUserId, gs.GroupId, gs.StartTime, gs.EndTime,
+                               gs.Location, gs.Notes, gs.GameTypeId, gs.Date, gsa.UserId AS AttendeeId
                         FROM GroupSession gs
                         INNER JOIN GroupSessionAttendee gsa ON gs.Id = gsa.SessionId
-                        WHERE gsa.UserId = @UserId";
+                        WHERE gsa.UserId = @CurrentUserId";
 
-                    DbUtils.AddParameter(cmd, "@UserId", userId);
+                    DbUtils.AddParameter(cmd, "@CurrentUserId", currentUserId);
 
                     var reader = cmd.ExecuteReader();
                     var sessions = new List<GroupSession>();
@@ -228,14 +228,15 @@ namespace ElfG.Repositories
                         sessions.Add(new GroupSession()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            UserId = DbUtils.GetInt(reader, "UserId"),
+                            UserId = DbUtils.GetInt(reader, "CreatedUserId"),
                             GroupId = DbUtils.GetInt(reader, "GroupId"),
                             StartTime = DbUtils.GetString(reader, "StartTime"),
                             EndTime = DbUtils.GetString(reader, "EndTime"),
                             Location = DbUtils.GetString(reader, "Location"),
                             Notes = DbUtils.GetString(reader, "Notes"),
                             GameTypeId = DbUtils.GetInt(reader, "GameTypeId"),
-                            Date = DbUtils.GetDateTime(reader, "Date")
+                            Date = DbUtils.GetDateTime(reader, "Date"),
+
                         });
                     }
                     reader.Close();

@@ -73,8 +73,8 @@ export const register = (userObject) => {
       .then((response) => response.json());
   }
 
-  export const getSessionsByUserId = (userId) => {
-    return fetch(`${baseUrl}/${userId}/sessions`)
+  export const getSessionsByUserId = (currentUserId) => {
+    return fetch(`${baseUrl}/${currentUserId}/sessions`)
       .then((response) => response.json());
   }
 
@@ -96,7 +96,7 @@ export const register = (userObject) => {
   }
 
   export const joinSession = (sessionAttendee) => {
-    return fetch(`${baseUrl}/${sessionAttendee.userId}/join-session/${sessionAttendee.id}`, {
+    return fetch(`${baseUrl}/${sessionAttendee.UserId}/join-session/${sessionAttendee.sessionId}`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export const register = (userObject) => {
   }
 
   export const leaveSession = (sessionAttendee) => {
-    return fetch(`${baseUrl}/${sessionAttendee.userId}/leave-session/${sessionAttendee.id}`, {
+    return fetch(`${baseUrl}/${sessionAttendee.userId}/leave-session/${sessionAttendee.sessionId}`, {
       method: 'DELETE'
     })
   }

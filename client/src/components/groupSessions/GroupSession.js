@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { format, formatISO, parseISO } from 'date-fns'
 import React, { useContext } from 'react'
 import { Card, CardBody, CardTitle, CardText, ListGroup, ListGroupItem, Button, Container } from 'reactstrap'
 import { deleteGroupSession, getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
@@ -43,9 +43,11 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
     const handleLeaveSession = () => {
         const sessionAttendeeObject = {
             userId: currentUser.id,
-            groupId:groupId
+            sessionId: session.id
         }
         leaveSession(sessionAttendeeObject)
+        .then(() => getSessionsByUserId(currentUser.id))
+        .then((newSessions) => setUserSessions(newSessions))
         .then(() => getGroupSessionsByGroupId(groupId))
         .then((newSessions) => setGroupSessions(newSessions))
     }
@@ -61,17 +63,18 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
           Join Session!
         </Button>
       )
-        console.log(groupSessions)
+        
+
     return (
         <Card>
             <CardBody>
                 <CardTitle>Location: {session.location}</CardTitle>
                 <CardTitle>Notes: {session.notes}</CardTitle>
                 <ListGroup>
-                    <ListGroupItem>Date: {format(new Date(session.date), 'MMMM d, yyyy')}</ListGroupItem>
+                    <ListGroupItem>Date: {session.date}</ListGroupItem>
                     <ListGroupItem>Start Time: {session.startTime}</ListGroupItem>
                     <ListGroupItem>End Time: {session.endTime}</ListGroupItem>
-                    <ListGroupItem>Game Type: {session.gameType.name}</ListGroupItem>
+                    <ListGroupItem>Game Type: {session?.gameType?.name}</ListGroupItem>
                     {hasJoined ? (leaveButton) : (joinButton)}
                     {(isUserSession && (
                         <>
