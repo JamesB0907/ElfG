@@ -6,10 +6,20 @@ import { Container } from 'reactstrap'
 import { format } from 'date-fns'
 import { getGroupNotesByGroupId } from '../managers/NoteManager'
 import { GroupNoteList } from '../notes/GroupNoteList'
+import { getSessionsByUserId } from '../managers/UserManager'
+
+const sessionsInitialState ={
+  groupSessions:[],
+  userSessions:[]
+}
+
+export const SessionContext = React.createContext(sessionsInitialState)
 
 export const GroupDetails = () => {
+  const currentUser = JSON.parse(localStorage.getItem('user'))
   const { groupId } = useParams()
-  const [groupSessions, setGroupSessions] = useState([])
+  const [groupSessions, setGroupSessions] = useState([sessionsInitialState.groupSessions])
+  const [userSessions, setUserSessions] = useState([sessionsInitialState.userSessions])
   const [groupNotes, setGroupNotes] = useState([])
 
   useEffect(() => {
@@ -24,10 +34,21 @@ export const GroupDetails = () => {
       })
   }, [groupId])
 
+  useEffect(() => {
+    if (currentUser) {
+      getSessionsByUserId(currentUser.id)
+        .then((userSessions) => {
+          const filteredUserSessions =  userSessions.filter((session) => session.groupId === groupId)
+          setUserSessions(filteredUserSessions)
+        })
+    }
+  }, [])
+console.log(userSessions)
   return (
+
+    <SessionContext.Provider value={{groupSessions, setGroupSessions, userSessions, setUserSessions}}>
     <Container> 
       <GroupSessionList 
-      sessions={groupSessions}
       groupId={groupId}
       setGroupSessions={setGroupSessions}
       />
@@ -38,5 +59,6 @@ export const GroupDetails = () => {
       />
         <Outlet />
     </Container>
+    </SessionContext.Provider>
   )
 }

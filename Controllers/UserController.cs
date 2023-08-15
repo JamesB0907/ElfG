@@ -30,6 +30,12 @@ namespace ElfG.Controllers
             return Ok(_userRepository.GetAllGroupMemberships());
         }
 
+        [HttpGet("GetAllSessionAttendees")]
+        public IActionResult GetAllSessionAttendees()
+        {
+            return Ok(_userRepository.GetAllSessionAttendees());
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
@@ -119,10 +125,10 @@ namespace ElfG.Controllers
 
 
         [HttpPost("{userId}/join-session/{sessionId}")]
-        public IActionResult JoinSession(int userId, int sessionId)
+        public IActionResult JoinSession(GroupSessionAttendee groupSessionAttendee)
         {
-            _userRepository.JoinSession(userId, sessionId);
-            return NoContent();
+            _userRepository.JoinSession(groupSessionAttendee);
+            return CreatedAtAction("GetAllSessionAttendees", new { id = groupSessionAttendee.Id }, groupSessionAttendee);
         }
 
         [HttpDelete("{userId}/leave-session/{sessionId}")]
