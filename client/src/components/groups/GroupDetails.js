@@ -32,7 +32,7 @@ export const GroupDetails = () => {
     .then((notes) => {
         setGroupNotes(notes)
       })
-    }, [groupId])
+    }, [])
     
     useEffect(() => {
       if (currentUser) {

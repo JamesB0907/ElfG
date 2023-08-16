@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Slab&family=Noticia+Text&family=Pinyon+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Carter+One&family=Josefin+Slab&family=Noticia+Text&family=Pinyon+Script&display=swap');
-.login-container {
+
+.register-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,7 +15,6 @@
     font-size: 120px;
     color: #405436;
     filter: blur(1.66px);
-    
   }
   
   .slogan {
@@ -25,7 +25,7 @@
     color: #323a2a;
   }
   
-  .login-box {
+  .register-box {
     width: 300px;
     padding: 20px;
     background-color: #7C9E8F;
@@ -37,7 +37,7 @@
     margin-bottom: 20px;
   }
   
-  .login-button {
+  .register-button {
     background-color: #405436;
     border: none;
     color: white;

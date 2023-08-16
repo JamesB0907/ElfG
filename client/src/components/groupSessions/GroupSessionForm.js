@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { addGroupSession, getAllGameTypes, getAllGroupSessions, getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
+import { SessionContext } from '../groups/GroupDetails'
 
-export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
+export const GroupSessionForm = ({ groupId }) => {
     const currentUser = JSON.parse(localStorage.getItem('user'))
+
+    const {groupSessions, setGroupSessions, userSessions, setUserSessions} = useContext(SessionContext)
 
     const [modalOpen, setModalOpen] = useState(false)
     const [groupSession, updateGroupSession] = useState({
