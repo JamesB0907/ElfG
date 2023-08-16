@@ -27,7 +27,7 @@ export const GroupDetails = () => {
     getGroupSessionsByGroupId(groupId)
     .then((sessions) => {
       setGroupSessions(sessions)
-    })
+    }) 
     getGroupNotesByGroupId(groupId)
     .then((notes) => {
         setGroupNotes(notes)
@@ -39,7 +39,7 @@ export const GroupDetails = () => {
         getSessionsByUserId(currentUser.id)
           .then((groupSessions) => {
             setUserSessions(groupSessions)
-          })
+          }) 
       }
     }, [])
 
@@ -49,9 +49,11 @@ export const GroupDetails = () => {
     <Container>
       <GroupSessionForm 
       groupId={groupId}
+      
       />
       <UserSessionList 
       groupId={groupId}
+      userSessions={userSessions}
       />
       <GroupSessionList 
       groupId={groupId}

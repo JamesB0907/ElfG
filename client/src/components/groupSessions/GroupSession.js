@@ -15,10 +15,10 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
 
     const handleDeleteSession = () => {
         deleteGroupSession(session.id)
-        .then(() => getSessionsByUserId(currentUser.id))
-        .then((newSessions) => setUserSessions(newSessions))
         .then(() => getGroupSessionsByGroupId(groupId))
         .then((newSessions) => setGroupSessions(newSessions))
+        .then(() => getSessionsByUserId(currentUser.id))
+        .then((newSessions) => setUserSessions(newSessions))
     }
 
     const deleteButton = () => {
@@ -33,10 +33,10 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
             sessionId: session.id
         }
         joinSession(groupAttendeeData)
+        .then(() => getGroupSessionsByGroupId(groupId))
+        .then((newSessions) => setGroupSessions(newSessions))
             .then(() => getSessionsByUserId(currentUser.id))
             .then((newSessions) => setUserSessions(newSessions))
-            .then(() => getGroupSessionsByGroupId(groupId))
-            .then((newSessions) => setGroupSessions(newSessions))
     }
 
     
@@ -46,10 +46,10 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
             sessionId: session.id
         }
         leaveSession(sessionAttendeeObject)
-        .then(() => getSessionsByUserId(currentUser.id))
-        .then((newSessions) => setUserSessions(newSessions))
         .then(() => getGroupSessionsByGroupId(groupId))
         .then((newSessions) => setGroupSessions(newSessions))
+        .then(() => getSessionsByUserId(currentUser.id))
+        .then((newSessions) => setUserSessions(newSessions))
     }
     
     const leaveButton = (

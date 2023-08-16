@@ -17,7 +17,8 @@ export const GroupNoteList = ({ notes, groupId, setGroupNotes }) => {
             <Col key={note.id} xs="12" md="6" lg="4">
               <GroupNote 
               note={note}
-              setGroupNotes={setGroupNotes} />
+              setGroupNotes={setGroupNotes}
+              groupId={groupId} />
             </Col>
           ))}
         </Row>
