@@ -13,10 +13,6 @@ export const UserSessionList = ({ groupId }) => {
     setFilteredSessions(userSessions?.filter(session => session.groupId == groupId))
   }, [userSessions])
 
-  
-  // const userSessionsInGroup = userSessions?.filter(session => session.groupId === groupId)
-  // console.log(userSessionsInGroup)
-
   return (
     <Container>
         <Row>

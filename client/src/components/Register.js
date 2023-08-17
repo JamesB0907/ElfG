@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "./managers/UserManager";
 import './Register.css'; // Import the custom CSS file
 
@@ -97,6 +97,7 @@ export default function Register({ setIsLoggedIn }) {
           </FormGroup>
           <FormGroup className="form-group">
             <Button className="register-button">Register</Button>
+            <Link className='nav-to-login' to='/login'>Back to Login</Link>
           </FormGroup>
         </Form>
       </div>

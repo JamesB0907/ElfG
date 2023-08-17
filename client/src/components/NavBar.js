@@ -28,10 +28,12 @@ function NavBar(args) {
             <UncontrolledDropdown nav inNavbar>
             </UncontrolledDropdown>
           </Nav>
+          <div className='username-container'> 
            {currentUser ?
           <NavbarText className='username'>{currentUser.username}</NavbarText>
               :""
             }
+          </div>
           <NavbarText><Button color='success'onClick={logout}>logout</Button></NavbarText>
       </Navbar>
     </div>

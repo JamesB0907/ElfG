@@ -36,7 +36,7 @@ export const GroupEdit = ({ group }) => {
   const isGmOrAdmin = currentUser.userTypeId === 2 || currentUser.userTypeId === 3;
 
   const editButton = (
-    <Button color="success" onClick={toggleModal}>
+    <Button className='group-edit-button' color="success" onClick={toggleModal}>
       Edit Group
     </Button>
   )
