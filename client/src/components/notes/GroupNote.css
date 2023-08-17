@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab&family=Noticia+Text&display=swap');
+
+.note-container {
+    background-color: #7C9E8F;
+    margin-bottom: 1rem;
+}
+
+.note-card {
+    font-family: 'Josefin Slab', serif;
+    font-weight: 600;
+    background-color: #7C9E8F; 
+}
+
+.note-title {
+    font-size: 30px;
+}

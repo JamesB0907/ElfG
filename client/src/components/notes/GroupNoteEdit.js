@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'reactstrap'
 import { editGroupNote, getGroupNotesByGroupId } from '../managers/NoteManager'
+import './GroupNoteEdit.css'
 
 export const GroupNoteEdit = ({ note, setGroupNotes }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
@@ -33,10 +34,10 @@ export const GroupNoteEdit = ({ note, setGroupNotes }) => {
 
   return (
     <>
-      <Button color="info" onClick={toggleModal}>
+      <Button className='note-edit-button' color="success" onClick={toggleModal}>
         Edit Note
       </Button>
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
+      <Modal className='note-edit-modal' isOpen={modalOpen} toggle={toggleModal}>
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggleModal}>Edit Note</ModalHeader>
           <ModalBody>
@@ -82,7 +83,7 @@ export const GroupNoteEdit = ({ note, setGroupNotes }) => {
             />
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" color="primary">
+            <Button type="submit" color="success">
               Save Changes
             </Button>{' '}
             <Button color="secondary" onClick={toggleModal}>

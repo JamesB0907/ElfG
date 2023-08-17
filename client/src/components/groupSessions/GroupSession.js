@@ -5,6 +5,7 @@ import { deleteGroupSession, getGroupSessionsByGroupId } from '../managers/Group
 import { GroupSessionEdit } from './GroupSessionEdit'
 import { getSessionsByUserId, joinSession, leaveSession } from '../managers/UserManager'
 import { SessionContext } from '../groups/GroupDetails'
+import './GroupSession.css'
 
 export const GroupSession = ({ session, groupId, hasJoined }) => {
     const currentUser = JSON.parse(localStorage.getItem('user'))
@@ -19,12 +20,6 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
             .then((newSessions) => setGroupSessions(newSessions))
             .then(() => getSessionsByUserId(currentUser.id))
             .then((newSessions) => setUserSessions(newSessions))
-    }
-
-    const deleteButton = () => {
-        <Button color="danger" onClick={handleDeleteSession}>
-            Delete Session
-        </Button>
     }
 
     const handleJoinSession = () => {
@@ -52,22 +47,22 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
     }
 
     const leaveButton = (
-        <Button color="secondary" onClick={handleLeaveSession}>
+        <Button className='leave-button' color="secondary" onClick={handleLeaveSession}>
             Joined!
         </Button>
     )
 
     const joinButton = (
-        <Button color="success" onClick={handleJoinSession}>
+        <Button className='join-button' color="success" onClick={handleJoinSession}>
             Join Session!
         </Button>
     )
 
     return (
-        <Card>
-            <CardBody>
-                <CardTitle>Location: {session.location}</CardTitle>
-                <CardTitle>Notes: {session.notes}</CardTitle>
+        <Card className='session-container'>
+            <CardBody className='session-card'>
+                <CardTitle className='session-location'>Location: {session.location}</CardTitle>
+                <CardTitle className='session-notes'>Notes: {session.notes}</CardTitle>
                 <ListGroup>
                     <ListGroupItem>Date: {session.date}</ListGroupItem>
                     <ListGroupItem>Start Time: {session.startTime}</ListGroupItem>
@@ -77,7 +72,7 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
                 {hasJoined ? (leaveButton) : (joinButton)}
                 {(isUserSession && (
                     <>
-                        <Button color="secondary" onClick={handleDeleteSession}>Delete</Button>
+                        <Button color="secondary" className='delete-button' onClick={handleDeleteSession}>Delete</Button>
                         <GroupSessionEdit
                             groupId={groupId}
                             setGroupSessions={setGroupSessions}
@@ -85,7 +80,7 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
                     </>
                 )) || (isAdmin && (
                     <>
-                        <Button color="secondary" onClick={handleDeleteSession}>Delete</Button>
+                        <Button color="secondary" className='delete-button' onClick={handleDeleteSession}>Delete</Button>
                         <GroupSessionEdit
                             groupId={groupId}
                             setGroupSessions={setGroupSessions}

@@ -1,3 +1,9 @@
 .session-form-modal .modal-content {
     background-color: #7C9E8F;
   }
+
+  .session-form-button {
+    margin-left: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

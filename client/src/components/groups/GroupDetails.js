@@ -8,6 +8,7 @@ import { GroupNoteList } from '../notes/GroupNoteList'
 import { getSessionsByUserId } from '../managers/UserManager'
 import { GroupSessionForm } from '../groupSessions/GroupSessionForm'
 import { UserSessionList } from '../groupSessions/UserSessionList'
+import './GroupDetails.css'
 
 const sessionsInitialState ={
   groupSessions:[],
@@ -46,7 +47,7 @@ export const GroupDetails = () => {
   return (
 
     <SessionContext.Provider value={{groupSessions, setGroupSessions, userSessions, setUserSessions}}>
-    <Container>
+    <Container className='details-container'>
       <GroupSessionForm 
       groupId={groupId}
       />

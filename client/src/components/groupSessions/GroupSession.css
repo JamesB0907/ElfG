@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab&family=Noticia+Text&display=swap');
+
+.session-container {
+    max-width: 27rem;
+    margin-bottom: 2rem;
+    background-color: #7C9E8F;
+}
+
+.session-card {
+    font-family: 'Josefin Slab', serif;
+    font-weight: 600;
+    background-color: #7C9E8F;
+    padding: 20px;
+    border-radius: 10px;
+    
+}
+
+.join-button {
+    margin-top: 1rem;
+}
+
+.delete-button {
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+

@@ -48,7 +48,7 @@ export const Group = ({ group, hasUserJoined }) => {
   }
 
   const joinButton = (
-    <Button color="primary" onClick={handleJoinGroup}>
+    <Button color="success" onClick={handleJoinGroup}>
       Join Group
     </Button>
   )
@@ -60,7 +60,7 @@ export const Group = ({ group, hasUserJoined }) => {
   )
 
   const deleteButton = (
-    <Button color="danger" onClick={handleDeleteGroup}>
+    <Button color="secondary" onClick={handleDeleteGroup}>
       Delete Group
     </Button>
   )
