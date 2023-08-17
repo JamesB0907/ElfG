@@ -1,36 +1,41 @@
 import React, { useState } from 'react';
+import "./NavBar.css"
 import {
   Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
   Nav,
-  Button
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText,
+  Button,
 } from 'reactstrap';
 import { logout } from './managers/UserManager';
+import { Link } from 'react-router-dom';
 
 function NavBar(args) {
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
   const currentUser = JSON.parse(localStorage.getItem('user'))
   return (
     <div>
-      <Navbar {...args}>
-        <NavbarBrand href="/">ElfG</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
+      <Navbar className='navbar-container'{...args}>
+        <Link className='navlogo' color='#405436;' to={"/"}>ElfG</Link>
           <Nav className="me-auto" navbar>
-            {currentUser ?
-          <h2>{currentUser.username}</h2>
+            <UncontrolledDropdown nav inNavbar>
+            </UncontrolledDropdown>
+          </Nav>
+           {currentUser ?
+          <NavbarText className='username'>{currentUser.username}</NavbarText>
               :""
             }
-            <Button onClick={logout}>logout</Button>
-          </Nav>
-        </Collapse>
+          <NavbarText><Button color='success'onClick={logout}>logout</Button></NavbarText>
       </Navbar>
     </div>
-  )
+  );
 }
 
-export default NavBar;
+export default NavBar

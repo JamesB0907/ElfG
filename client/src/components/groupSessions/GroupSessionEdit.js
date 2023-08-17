@@ -67,7 +67,7 @@ export const GroupSessionEdit = ({ groupId, session }) => {
 
     return (
         <>
-            <Button color="primary" onClick={toggleModal}>
+            <Button color="success" onClick={toggleModal}>
                 Edit Group Session
             </Button>
             <Modal isOpen={modalOpen} toggle={toggleModal}>

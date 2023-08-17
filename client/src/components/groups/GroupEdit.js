@@ -34,13 +34,16 @@ export const GroupEdit = ({ group }) => {
 }
   const isGmOrAdmin = currentUser.userTypeId === 2 || currentUser.userTypeId === 3;
 
+  const editButton = (
+    <Button color="primary" onClick={toggleModal}>
+    Edit Group
+  </Button>
+  )
+
   return (
     <>
-      {isGmOrAdmin && (
-        <Button color="primary" onClick={toggleModal}>
-          Edit Group
-        </Button>
-      )}
+            {currentUser.userTypeId === 2 && currentUser.id === group.userId && editButton}
+            {currentUser.userTypeId === 3 &&  editButton}
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggleModal}>Edit Group</ModalHeader>

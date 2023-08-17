@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab&family=Noticia+Text&display=swap');
+.group-card {
+    font-family: 'Josefin Slab', serif;
+    font-weight: 600;
+    background-color: #7C9E8F;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .group-name {
+    font-size: 24px;
+    color: #405436;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .group-name:hover {
+    color: #E57E25; 
+    text-decoration: underline;
+  }
+  

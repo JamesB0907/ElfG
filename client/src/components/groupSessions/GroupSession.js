@@ -11,14 +11,14 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
     const isUserSession = session.userId === currentUser.id
     const isAdmin = currentUser.userTypeId === 3
 
-    const {groupSessions, setGroupSessions, userSessions, setUserSessions} = useContext(SessionContext)
+    const { groupSessions, setGroupSessions, userSessions, setUserSessions } = useContext(SessionContext)
 
     const handleDeleteSession = () => {
         deleteGroupSession(session.id)
-        .then(() => getGroupSessionsByGroupId(groupId))
-        .then((newSessions) => setGroupSessions(newSessions))
-        .then(() => getSessionsByUserId(currentUser.id))
-        .then((newSessions) => setUserSessions(newSessions))
+            .then(() => getGroupSessionsByGroupId(groupId))
+            .then((newSessions) => setGroupSessions(newSessions))
+            .then(() => getSessionsByUserId(currentUser.id))
+            .then((newSessions) => setUserSessions(newSessions))
     }
 
     const deleteButton = () => {
@@ -28,42 +28,40 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
     }
 
     const handleJoinSession = () => {
-        const groupAttendeeData= {
-            userId:currentUser.id,
+        const groupAttendeeData = {
+            userId: currentUser.id,
             sessionId: session.id
         }
         joinSession(groupAttendeeData)
-        .then(() => getGroupSessionsByGroupId(groupId))
-        .then((newSessions) => setGroupSessions(newSessions))
+            .then(() => getGroupSessionsByGroupId(groupId))
+            .then((newSessions) => setGroupSessions(newSessions))
             .then(() => getSessionsByUserId(currentUser.id))
             .then((newSessions) => setUserSessions(newSessions))
     }
 
-    
     const handleLeaveSession = () => {
         const sessionAttendeeObject = {
             userId: currentUser.id,
             sessionId: session.id
         }
         leaveSession(sessionAttendeeObject)
-        .then(() => getGroupSessionsByGroupId(groupId))
-        .then((newSessions) => setGroupSessions(newSessions))
-        .then(() => getSessionsByUserId(currentUser.id))
-        .then((newSessions) => setUserSessions(newSessions))
+            .then(() => getGroupSessionsByGroupId(groupId))
+            .then((newSessions) => setGroupSessions(newSessions))
+            .then(() => getSessionsByUserId(currentUser.id))
+            .then((newSessions) => setUserSessions(newSessions))
     }
-    
+
     const leaveButton = (
-        <Button color="danger" onClick={handleLeaveSession}>
-          Joined!
+        <Button color="secondary" onClick={handleLeaveSession}>
+            Joined!
         </Button>
-      )
-    
-      const joinButton = (
-        <Button color="primary" onClick={handleJoinSession}>
-          Join Session!
+    )
+
+    const joinButton = (
+        <Button color="success" onClick={handleJoinSession}>
+            Join Session!
         </Button>
-      )
-        
+    )
 
     return (
         <Card>
@@ -75,26 +73,25 @@ export const GroupSession = ({ session, groupId, hasJoined }) => {
                     <ListGroupItem>Start Time: {session.startTime}</ListGroupItem>
                     <ListGroupItem>End Time: {session.endTime}</ListGroupItem>
                     <ListGroupItem>Game Type: {session?.gameType?.name}</ListGroupItem>
-                    {hasJoined ? (leaveButton) : (joinButton)}
-                    {(isUserSession && (
-                        <>
-                            <Button color="danger" onClick={handleDeleteSession}>Delete</Button>
-                            <GroupSessionEdit
+                </ListGroup>
+                {hasJoined ? (leaveButton) : (joinButton)}
+                {(isUserSession && (
+                    <>
+                        <Button color="secondary" onClick={handleDeleteSession}>Delete</Button>
+                        <GroupSessionEdit
                             groupId={groupId}
                             setGroupSessions={setGroupSessions}
-                            session={session}/>
-                        </>
-                    )) || (isAdmin && (
-                        <>
-                        <Button color="danger" onClick={handleDeleteSession}>Delete</Button>
+                            session={session} />
+                    </>
+                )) || (isAdmin && (
+                    <>
+                        <Button color="secondary" onClick={handleDeleteSession}>Delete</Button>
                         <GroupSessionEdit
-                        groupId={groupId}
-                        setGroupSessions={setGroupSessions}
-                        session={session}/>
-                        </>
-                    ))}
-
-                </ListGroup>
+                            groupId={groupId}
+                            setGroupSessions={setGroupSessions}
+                            session={session} />
+                    </>
+                ))}
             </CardBody>
         </Card>
     )

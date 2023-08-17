@@ -5,7 +5,7 @@ import { getGroupsByUserId, joinGroup, leaveGroup } from '../managers/UserManage
 import { deleteGroup, getAllGroups } from '../managers/GroupManager'
 import { GroupEdit } from './GroupEdit'
 import { Context } from './GroupPage'
-
+import './Group.css';
 
 export const Group = ({ group, hasUserJoined }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
@@ -66,16 +66,16 @@ export const Group = ({ group, hasUserJoined }) => {
   )
 
   return (
-    <Card>
+    <Card className="group-card">
       <CardBody>
         <CardTitle>
           {hasUserJoined ? (
-            <Link to={`/groups/${group.id}`}>{group.name}</Link>
+            <Link to={`/groups/${group.id}`} className="group-name">{group.name}</Link>
           ) : (
-            group.name
+            <span className="group-name">{group.name}</span>
           )}
         </CardTitle>
-        <CardText>{group.description}</CardText>
+        <CardText className="group-description">{group.description}</CardText>
         {hasUserJoined ? (
           <>
             {currentUser.userTypeId === 2 && currentUser.id === group.userId && deleteButton}

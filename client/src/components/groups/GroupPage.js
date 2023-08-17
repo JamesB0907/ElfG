@@ -4,6 +4,7 @@ import { UserGroupList } from './UserGroupList'
 import { getAllGroups } from '../managers/GroupManager'
 import { getGroupsByUserId } from '../managers/UserManager'
 import { GroupForm } from './GroupForm'
+import './GroupPage.css'
 
 const initialState = {
   groups: [],
@@ -33,8 +34,8 @@ export const GroupPage = () => {
   return (
   <>
     <Context.Provider value={{allGroups, setAllGroups, userGroups, setUserGroups}}>
-    <div>
-      <GroupForm setGroups={setAllGroups}/>
+    <div className='group-container'>
+      <GroupForm className='group-form' setGroups={setAllGroups}/>
       <GroupList 
       allGroups={allGroups} 
       userGroups={userGroups}

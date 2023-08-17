@@ -49,7 +49,6 @@ export const GroupDetails = () => {
     <Container>
       <GroupSessionForm 
       groupId={groupId}
-      
       />
       <UserSessionList 
       groupId={groupId}
