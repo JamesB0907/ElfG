@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { editGroupSession, getAllGameTypes, getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
+import { getSessionsByUserId } from '../managers/UserManager'
+import { SessionContext } from '../groups/GroupDetails'
+import './GroupSessionEdit.css'
 
-export const GroupSessionEdit = ({ setGroupSessions, groupId, session }) => {
+export const GroupSessionEdit = ({ groupId, session }) => {
     const currentUser = JSON.parse(localStorage.getItem('user'))
+
+    const { groupSessions, setGroupSessions, userSessions, setUserSessions } = useContext(SessionContext)
 
     const [modalOpen, setModalOpen] = useState(false)
     const [editedGroupSession, updateEditedGroupSession] = useState({
@@ -43,6 +48,8 @@ export const GroupSessionEdit = ({ setGroupSessions, groupId, session }) => {
             .then(() => toggleModal())
             .then(() => getGroupSessionsByGroupId(groupId))
             .then((newData) => setGroupSessions(newData))
+            .then(() => getSessionsByUserId(currentUser.id))
+            .then((newData) => setUserSessions(newData))
 
     }
 
@@ -58,13 +65,16 @@ export const GroupSessionEdit = ({ setGroupSessions, groupId, session }) => {
             {gameType.name}
         </DropdownItem>
     ))
-
+    const editButton = (
+        <Button className='session-edit-button' color="success" onClick={toggleModal}>
+            Edit Group Session
+        </Button>
+    )
     return (
         <>
-            <Button color="primary" onClick={toggleModal}>
-                Edit Group Session
-            </Button>
-            <Modal isOpen={modalOpen} toggle={toggleModal}>
+            {currentUser.userTypeId === 2 && currentUser.id === session.userId && editButton}
+            {currentUser.userTypeId === 3 && editButton}
+            <Modal className='session-edit-modal' isOpen={modalOpen} toggle={toggleModal}>
                 <form onSubmit={handleSubmit}>
                     <ModalHeader toggle={toggleModal}>Create New Group Session</ModalHeader>
                     <ModalBody>

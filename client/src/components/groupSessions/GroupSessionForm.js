@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, FormGroup, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { addGroupSession, getAllGameTypes, getAllGroupSessions, getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
+import { SessionContext } from '../groups/GroupDetails'
+import './GroupSessionForm.css'
 
-export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
+export const GroupSessionForm = ({ groupId }) => {
     const currentUser = JSON.parse(localStorage.getItem('user'))
+
+    const {groupSessions, setGroupSessions, userSessions, setUserSessions} = useContext(SessionContext)
 
     const [modalOpen, setModalOpen] = useState(false)
     const [groupSession, updateGroupSession] = useState({
@@ -79,10 +83,10 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
     return (
         <>
             {isGmOrAdmin &&(
-            <Button color="primary" onClick={toggleModal}>
+            <Button className='session-form-button'color="success" onClick={toggleModal}>
                 Create Group Session
             </Button>)}
-            <Modal isOpen={modalOpen} toggle={toggleModal}>
+            <Modal className='session-form-modal' isOpen={modalOpen} toggle={toggleModal}>
                 <form onSubmit={handleSubmit}>
                     <ModalHeader toggle={toggleModal}>Create New Group Session</ModalHeader>
                     <ModalBody>
@@ -164,7 +168,7 @@ export const GroupSessionForm = ({ setGroupSessions, groupId }) => {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button type="submit" color="primary">
+                        <Button type="submit" color="success">
                             Create
                         </Button>{' '}
                         <Button color="secondary" onClick={toggleModal}>

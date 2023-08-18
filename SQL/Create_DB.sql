@@ -50,7 +50,7 @@ CREATE TABLE [GroupNote] (
   [RelDate] DATETIME NOT NULL,
   [PostedOn] DATETIME NOT NULL,--INTENDING TO AlTER FROM TIMESTAMP
   CONSTRAINT [FK_GroupNote_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
-  CONSTRAINT [FK_GroupNote_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id])
+  CONSTRAINT [FK_GroupNote_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id]) ON DELETE CASCADE
 );
 
 CREATE TABLE [GroupMembership] (
@@ -87,7 +87,7 @@ CREATE TABLE [GroupSession] (
   [Notes] TEXT NOT NULL,
   [GameTypeId] INT NOT NULL,
   CONSTRAINT [FK_GroupSession_User] FOREIGN KEY ([UserId]) REFERENCES [User] ([Id]),
-  CONSTRAINT [FK_GroupSession_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id]),
+  CONSTRAINT [FK_GroupSession_Group] FOREIGN KEY ([GroupId]) REFERENCES [Group] ([Id]) ON DELETE CASCADE,
   CONSTRAINT [FK_GroupSession_GameType] FOREIGN KEY ([GameTypeId]) REFERENCES [GameType] ([Id])
 );
 

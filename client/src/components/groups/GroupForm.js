@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'react
 import { addGroup, getAllGroups } from '../managers/GroupManager'
 import { getGroupsByUserId, joinGroup } from '../managers/UserManager'
 import { Context } from './GroupPage'
+import './GroupForm.css'
 
 export const GroupForm = () => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
@@ -45,14 +46,14 @@ export const GroupForm = () => {
   return (
     <>
       {isGmOrAdmin && (
-        <Button color="primary" onClick={toggleModal}>
+        <Button className='group-form-button' color="success" onClick={toggleModal}>
           Create Group
         </Button>
       )}
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
+      <Modal className='group-form-modal'isOpen={modalOpen} toggle={toggleModal}>
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggleModal}>Create New Group</ModalHeader>
-          <ModalBody>
+          <ModalBody >
             <Input
               type="text"
               placeholder="Name"
@@ -75,7 +76,7 @@ export const GroupForm = () => {
             />
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" color="primary">
+            <Button type="submit" color="success">
               Create
             </Button>{' '}
             <Button color="secondary" onClick={toggleModal}>

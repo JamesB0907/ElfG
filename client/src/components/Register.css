@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab&family=Noticia+Text&family=Pinyon+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&family=Josefin+Slab&family=Noticia+Text&family=Pinyon+Script&display=swap');
+
+.register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #C2C793;
+  }
+  
+  .logo {
+    font-family: 'Carter One', cursive;
+    font-size: 120px;
+    color: #405436;
+    filter: blur(1.66px);
+  }
+  
+  .slogan {
+    font-family: 'Pinyon Script', cursive;
+    font-weight: bold;
+    font-size: 35px;
+    margin-top: 10px;
+    color: #323a2a;
+  }
+  
+  .register-box {
+    width: 300px;
+    padding: 20px;
+    background-color: #7C9E8F;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .register-button {
+    background-color: #405436;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .register-link {
+    color: #282e23;
+  }
+  
+  .register-link:hover {
+    color: #405436;
+  }
+  
+  .nav-to-login {
+    color: #282e23;
+    margin-left: 5rem;
+  }

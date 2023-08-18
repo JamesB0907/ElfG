@@ -6,7 +6,7 @@ import { getSessionsByUserId } from '../managers/UserManager';
 import { UserSessionList } from './UserSessionList';
 import { SessionContext } from '../groups/GroupDetails';
 
-export const GroupSessionList = ({ groupId }) => {
+export const GroupSessionList = ({ groupId}) => {
   
   const {groupSessions, setGroupSessions, userSessions, setUserSessions} = useContext(SessionContext)
   

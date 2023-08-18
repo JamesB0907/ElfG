@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input } from 'react
 import { editGroup, getAllGroups } from '../managers/GroupManager'
 import { getGroupsByUserId, joinGroup } from '../managers/UserManager'
 import { Context } from './GroupPage'
+import './GroupEdit.css'
 
 export const GroupEdit = ({ group }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'))
@@ -26,22 +27,25 @@ export const GroupEdit = ({ group }) => {
     const saveGroup = { ...editedGroup }
     saveGroup.id = group.id
     editGroup(saveGroup)
-    .then(() => toggleModal())
-    .then(() => getAllGroups())
-    .then((newGroups) => setAllGroups(newGroups))
-    .then(() => getGroupsByUserId(currentUser.id))
-    .then((newUserGroups) => setUserGroups(newUserGroups))
-}
+      .then(() => toggleModal())
+      .then(() => getAllGroups())
+      .then((newGroups) => setAllGroups(newGroups))
+      .then(() => getGroupsByUserId(currentUser.id))
+      .then((newUserGroups) => setUserGroups(newUserGroups))
+  }
   const isGmOrAdmin = currentUser.userTypeId === 2 || currentUser.userTypeId === 3;
+
+  const editButton = (
+    <Button className='group-edit-button' color="success" onClick={toggleModal}>
+      Edit Group
+    </Button>
+  )
 
   return (
     <>
-      {isGmOrAdmin && (
-        <Button color="primary" onClick={toggleModal}>
-          Edit Group
-        </Button>
-      )}
-      <Modal isOpen={modalOpen} toggle={toggleModal}>
+      {currentUser.userTypeId === 2 && currentUser.id === group.userId && editButton}
+      {currentUser.userTypeId === 3 && editButton}
+      <Modal className='group-edit-modal' isOpen={modalOpen} toggle={toggleModal}>
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggleModal}>Edit Group</ModalHeader>
           <ModalBody>
@@ -67,7 +71,7 @@ export const GroupEdit = ({ group }) => {
             />
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" color="primary">
+            <Button type="submit" color="success">
               Save Changes
             </Button>{' '}
             <Button color="secondary" onClick={toggleModal}>

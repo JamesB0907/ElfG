@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getGroupSessionsByGroupId } from '../managers/GroupSessionManager'
 import { GroupSessionList } from '../groupSessions/GroupSessionList'
 import { Container } from 'reactstrap'
-import { format } from 'date-fns'
 import { getGroupNotesByGroupId } from '../managers/NoteManager'
 import { GroupNoteList } from '../notes/GroupNoteList'
 import { getSessionsByUserId } from '../managers/UserManager'
-import { UserSessionList } from '../groupSessions/UserSessionList'
 import { GroupSessionForm } from '../groupSessions/GroupSessionForm'
+import { UserSessionList } from '../groupSessions/UserSessionList'
+import './GroupDetails.css'
 
 const sessionsInitialState ={
   groupSessions:[],
@@ -28,7 +28,7 @@ export const GroupDetails = () => {
     getGroupSessionsByGroupId(groupId)
     .then((sessions) => {
       setGroupSessions(sessions)
-    })
+    }) 
     getGroupNotesByGroupId(groupId)
     .then((notes) => {
         setGroupNotes(notes)
@@ -40,19 +40,20 @@ export const GroupDetails = () => {
         getSessionsByUserId(currentUser.id)
           .then((groupSessions) => {
             setUserSessions(groupSessions)
-          })
+          }) 
       }
     }, [])
 
   return (
 
     <SessionContext.Provider value={{groupSessions, setGroupSessions, userSessions, setUserSessions}}>
-    <Container>
+    <Container className='details-container'>
       <GroupSessionForm 
       groupId={groupId}
       />
       <UserSessionList 
       groupId={groupId}
+      userSessions={userSessions}
       />
       <GroupSessionList 
       groupId={groupId}
